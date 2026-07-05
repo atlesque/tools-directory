@@ -24,12 +24,14 @@ export const tools: Tool[] = [
     name: 'atlesque-rng',
     description: 'Configurable random number generator with min/max and auto-generate interval.',
     githubUrl: 'https://github.com/atlesque/atlesque-rng',
+    websiteUrl: 'https://rng.atlesque.dev/',
     category: 'Productivity',
   },
   {
     name: 'audio-blind-test',
     description: 'Blind audio comparison and rating app with ranked results export.',
     githubUrl: 'https://github.com/atlesque/audio-blind-test',
+    websiteUrl: 'https://audio-blind-test.atlesque.dev/',
     category: 'Audio',
   },
   {
@@ -48,6 +50,7 @@ export const tools: Tool[] = [
     name: 'deepseek-peak-hours',
     description: 'Shows when it is peak hours for using the DeepSeek API.',
     githubUrl: 'https://github.com/atlesque/deepseek-peak-hours',
+    websiteUrl: 'https://deepseek-peak.atlesque.dev/',
     category: 'AI',
   },
   {
@@ -60,12 +63,21 @@ export const tools: Tool[] = [
     name: 'docx-viewer',
     description: 'Client-side .docx Word document viewer.',
     githubUrl: 'https://github.com/atlesque/docx-viewer',
+    websiteUrl: 'https://docx.atlesque.dev/',
     category: 'Documents',
+  },
+  {
+    name: 'game-of-life',
+    description: "Interactive Conway's Game of Life simulator.",
+    githubUrl: 'https://github.com/atlesque/game-of-life',
+    websiteUrl: 'https://gameoflife.atlesque.dev/',
+    category: 'Games',
   },
   {
     name: 'image-detective',
     description: 'Drag-and-drop image viewer and metadata/EXIF inspector.',
     githubUrl: 'https://github.com/atlesque/image-detective',
+    websiteUrl: 'https://image-detective.atlesque.dev/',
     category: 'Images',
   },
   {
@@ -78,6 +90,7 @@ export const tools: Tool[] = [
     name: 'instagram-cropper',
     description: 'Resizes images to Instagram ratios and adds background when needed.',
     githubUrl: 'https://github.com/atlesque/instagram-cropper',
+    websiteUrl: 'https://instacrop.atlesque.com/',
     category: 'Images',
   },
   {
@@ -96,24 +109,35 @@ export const tools: Tool[] = [
     name: 'json-editor',
     description: 'Simple JSON editor built with Vue 3 and Vite.',
     githubUrl: 'https://github.com/atlesque/json-editor',
+    websiteUrl: 'https://json.atlesque.dev/',
+    category: 'Developer',
+  },
+  {
+    name: 'mbp-jwt-decoder',
+    description: 'JWT decoder for inspecting token headers and payloads.',
+    githubUrl: 'https://github.com/atlesque/mbp-jwt-decoder',
+    websiteUrl: 'https://mbp-jwt.atlesque.dev/',
     category: 'Developer',
   },
   {
     name: 'mbp-kleuren-contactvoorkeuren',
     description: 'Overview/reference tool for Contactvoorkeuren colors.',
     githubUrl: 'https://github.com/atlesque/mbp-kleuren-contactvoorkeuren',
+    websiteUrl: 'https://mbp-kleuren-contactvoorkeuren.atlesque.dev/',
     category: 'Productivity',
   },
   {
     name: 'midi-visualizer',
     description: 'Drag-and-drop MIDI piano-roll visualizer with playback controls.',
     githubUrl: 'https://github.com/atlesque/midi-visualizer',
+    websiteUrl: 'https://midi-visualizer.atlesque.dev/',
     category: 'Audio',
   },
   {
     name: 'minerva-roulette',
     description: 'Rotating assignment tool for determining who handles MIN tickets each week.',
     githubUrl: 'https://github.com/atlesque/minerva-roulette',
+    websiteUrl: 'https://minerva.atlesque.dev/',
     category: 'Productivity',
   },
   {
@@ -123,9 +147,17 @@ export const tools: Tool[] = [
     category: 'Developer',
   },
   {
+    name: 'pdw-filter-manager',
+    description: 'Filter management tool for PDW configuration workflows.',
+    githubUrl: 'https://github.com/atlesque/pdw-filter-manager',
+    websiteUrl: 'https://pdw-filter-manager.atlesque.dev/',
+    category: 'Productivity',
+  },
+  {
     name: 'polaroid-generator',
     description: 'Offline browser tool that adds a Polaroid frame around an image.',
     githubUrl: 'https://github.com/atlesque/polaroid-generator',
+    websiteUrl: 'https://polaroid.atlesque.dev/',
     category: 'Images',
   },
   {
@@ -138,6 +170,7 @@ export const tools: Tool[] = [
     name: 'scrum-poker',
     description: 'Real-time planning poker app for agile teams.',
     githubUrl: 'https://github.com/atlesque/scrum-poker',
+    websiteUrl: 'https://scrum-poker.atlesque.dev/',
     category: 'Productivity',
   },
   {
@@ -157,12 +190,14 @@ export const tools: Tool[] = [
     name: 'text-dictator',
     description: 'Text-to-speech dictation app with repeat, rate, voice, and active-text controls.',
     githubUrl: 'https://github.com/atlesque/text-dictator',
+    websiteUrl: 'https://text-dictator.atlesque.dev/',
     category: 'Text',
   },
   {
     name: 'text-partitioner',
     description: 'Splits large text blocks into cleaner paragraph-like chunks.',
     githubUrl: 'https://github.com/atlesque/text-partitioner',
+    websiteUrl: 'https://text-partitioner.atlesque.dev/',
     category: 'Text',
   },
   {
