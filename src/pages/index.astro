@@ -74,10 +74,8 @@ const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
                       <p>{tool.description}</p>
                     </div>
                     <div class="links">
-                      {tool.websiteUrl ? (
+                      {tool.websiteUrl && (
                         <a class="primary-link" href={tool.websiteUrl}>Website</a>
-                      ) : (
-                        <span class="muted-link">No verified site</span>
                       )}
                       <a href={tool.githubUrl}>GitHub</a>
                     </div>
