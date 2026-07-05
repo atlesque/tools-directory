@@ -148,6 +148,13 @@ export const tools: Tool[] = [
     category: 'Images',
   },
   {
+    name: 'pomodoro-timer',
+    description: 'Pomodoro Timer',
+    githubUrl: 'https://github.com/atlesque/pomodoro-timer',
+    websiteUrl: 'https://pomodoro.atlesque.dev/',
+    category: 'Productivity',
+  },
+  {
     name: 'pulse',
     description: 'Minimal task/status tracker with API updates and Cloudflare D1 persistence.',
     githubUrl: 'https://github.com/atlesque/pulse',
