@@ -63,6 +63,12 @@ const themeIcons: Record<string, string> = { light: '☀', dark: '☾', auto: '�
         </dl>
       </section>
 
+      <nav class="category-nav" aria-label="Tool categories">
+        {categories.map((category) => (
+          <a href={`#${category.toLowerCase()}`}>{category}</a>
+        ))}
+      </nav>
+
       <div class="search-bar">
         <label for="tool-search" class="sr-only">Search tools</label>
         <input
@@ -73,12 +79,6 @@ const themeIcons: Record<string, string> = { light: '☀', dark: '☾', auto: '�
         />
         <span class="search-status" id="search-status" aria-live="polite"></span>
       </div>
-
-      <nav class="category-nav" aria-label="Tool categories">
-        {categories.map((category) => (
-          <a href={`#${category.toLowerCase()}`}>{category}</a>
-        ))}
-      </nav>
 
       <section class="tool-grid" aria-label="Tools">
         {categories.map((category) => (
