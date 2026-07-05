@@ -148,8 +148,8 @@ export const tools: Tool[] = [
     category: 'Images',
   },
   {
-    name: 'pomodoro-timer',
-    description: 'Pomodoro Timer',
+    name: 'Pomodoro Timer',
+    description: 'Focus timer with work/break intervals based on the Pomodoro Technique.',
     githubUrl: 'https://github.com/atlesque/pomodoro-timer',
     websiteUrl: 'https://pomodoro.atlesque.dev/',
     category: 'Productivity',
@@ -188,8 +188,8 @@ export const tools: Tool[] = [
     category: 'Text',
   },
   {
-    name: 'text-differ',
-    description: 'Text Differ',
+    name: 'Text Differ',
+    description: 'Side-by-side text comparison and diff visualizer.',
     githubUrl: 'https://github.com/atlesque/text-differ',
     websiteUrl: 'https://diff.atlesque.dev/',
     category: 'Text',
