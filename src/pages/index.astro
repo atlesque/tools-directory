@@ -40,6 +40,17 @@ const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
         </dl>
       </section>
 
+      <div class="search-bar">
+        <label for="tool-search" class="sr-only">Search tools</label>
+        <input
+          id="tool-search"
+          type="search"
+          placeholder="Search tools by name, description, or category…"
+          autocomplete="off"
+        />
+        <span class="search-status" id="search-status" aria-live="polite"></span>
+      </div>
+
       <nav class="category-nav" aria-label="Tool categories">
         {categories.map((category) => (
           <a href={`#${category.toLowerCase()}`}>{category}</a>
@@ -54,7 +65,10 @@ const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
               {tools
                 .filter((tool) => tool.category === category)
                 .map((tool) => (
-                  <article class="tool-card">
+                  <article
+                    class="tool-card"
+                    data-search-text={`${tool.name} ${tool.description} ${tool.category}`}
+                  >
                     <div>
                       <h3>{tool.name}</h3>
                       <p>{tool.description}</p>
@@ -74,5 +88,35 @@ const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
         ))}
       </section>
     </main>
+
+    <script>
+      const searchInput = document.getElementById('tool-search') as HTMLInputElement;
+      const statusEl = document.getElementById('search-status') as HTMLSpanElement;
+
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        const cards = document.querySelectorAll<HTMLElement>('.tool-card');
+        const groups = document.querySelectorAll<HTMLElement>('.category-group');
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const text = (card.dataset.searchText ?? '').toLowerCase();
+          const match = !query || text.includes(query);
+          card.classList.toggle('hidden', !match);
+          if (match) visibleCount++;
+        });
+
+        groups.forEach((group) => {
+          const visibleCards = group.querySelectorAll('.tool-card:not(.hidden)');
+          group.classList.toggle('hidden', visibleCards.length === 0);
+        });
+
+        if (query) {
+          statusEl.textContent = `${visibleCount} tool${visibleCount !== 1 ? 's' : ''} found`;
+        } else {
+          statusEl.textContent = '';
+        }
+      });
+    </script>
   </body>
 </html>
