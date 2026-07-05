@@ -188,6 +188,13 @@ export const tools: Tool[] = [
     category: 'Text',
   },
   {
+    name: 'text-differ',
+    description: 'Text Differ',
+    githubUrl: 'https://github.com/atlesque/text-differ',
+    websiteUrl: 'https://diff.atlesque.dev/',
+    category: 'Text',
+  },
+  {
     name: 'text-partitioner',
     description: 'Splits large text blocks into cleaner paragraph-like chunks.',
     githubUrl: 'https://github.com/atlesque/text-partitioner',
