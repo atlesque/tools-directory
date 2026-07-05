@@ -113,13 +113,6 @@ export const tools: Tool[] = [
     category: 'Developer',
   },
   {
-    name: 'mbp-jwt-decoder',
-    description: 'JWT decoder for inspecting token headers and payloads.',
-    githubUrl: 'https://github.com/atlesque/mbp-jwt-decoder',
-    websiteUrl: 'https://mbp-jwt.atlesque.dev/',
-    category: 'Developer',
-  },
-  {
     name: 'mbp-kleuren-contactvoorkeuren',
     description: 'Overview/reference tool for Contactvoorkeuren colors.',
     githubUrl: 'https://github.com/atlesque/mbp-kleuren-contactvoorkeuren',
@@ -145,13 +138,6 @@ export const tools: Tool[] = [
     description: 'Hardware/software trigger project using an RP2040 switch/button to run an action.',
     githubUrl: 'https://github.com/atlesque/nuclear-launch',
     category: 'Developer',
-  },
-  {
-    name: 'pdw-filter-manager',
-    description: 'Filter management tool for PDW configuration workflows.',
-    githubUrl: 'https://github.com/atlesque/pdw-filter-manager',
-    websiteUrl: 'https://pdw-filter-manager.atlesque.dev/',
-    category: 'Productivity',
   },
   {
     name: 'polaroid-generator',
