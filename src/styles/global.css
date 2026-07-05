@@ -16,6 +16,34 @@
     BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #1a1c1e;
+  --surface: #232528;
+  --surface-soft: #2b2d32;
+  --ink: #e7e5df;
+  --muted: #9a9ea6;
+  --line: #3a3c42;
+  --accent: #27b5bd;
+  --accent-strong: #1d969d;
+  --warm: #e07a44;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #1a1c1e;
+    --surface: #232528;
+    --surface-soft: #2b2d32;
+    --ink: #e7e5df;
+    --muted: #9a9ea6;
+    --line: #3a3c42;
+    --accent: #27b5bd;
+    --accent-strong: #1d969d;
+    --warm: #e07a44;
+  }
+}
+
 h1,
 h2,
 h3,
@@ -38,7 +66,7 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 18rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 70%, transparent), transparent 18rem),
     var(--bg);
   color: var(--ink);
 }
@@ -48,10 +76,67 @@ a {
   text-decoration: none;
 }
 
+/* ── Navbar ─────────────────────────────────── */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 14px 0;
+}
+
+.navbar .site-title {
+  font-family: 'Sora', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* ── Dark mode toggle ───────────────────────── */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 32px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-soft);
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+/* ── Page shell ─────────────────────────────── */
+
 .page-shell {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 56px 0 72px;
+  padding: 40px 0 72px;
 }
 
 .intro {

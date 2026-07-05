@@ -1,19 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Background: rounded square -->
-  <rect width="64" height="64" rx="16" fill="#1a1a2e"/>
-  <!-- Wrench icon, rotated ~-30° -->
-  <g transform="translate(32,32) rotate(-30) translate(-32,-32)">
-    <!-- Handle -->
-    <rect x="24" y="36" width="16" height="24" rx="4" fill="#e94560"/>
-    <!-- Handle center cutout -->
-    <rect x="28" y="38" width="8" height="20" rx="2" fill="#1a1a2e"/>
-    <!-- Wrench jaw - upper arm -->
-    <path d="M24 36 L24 18 Q24 10 32 10 Q40 10 40 18 L40 36" fill="#e94560"/>
-    <!-- Jaw opening -->
-    <path d="M28 34 L28 20 Q28 16 32 16 Q36 16 36 20 L36 34" fill="#1a1a2e"/>
-    <!-- Jaw teeth/notches -->
-    <rect x="26" y="28" width="4" height="3" rx="1" fill="#1a1a2e"/>
-    <rect x="34" y="28" width="4" height="3" rx="1" fill="#1a1a2e"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Orange wrench on dark background">
+  <rect width="64" height="64" rx="12" fill="#0b1020"/>
+  <g transform="rotate(-42 32 32)" fill="#ff7a1a">
+    <path d="M26 25h12v25a6 6 0 0 1-12 0V25Z"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M32 5a14 14 0 0 0-10.9 22.8l6.6-6.6a6.1 6.1 0 0 1 7.7-7.7l-5 5 5.2 5.2 5-5A6.1 6.1 0 0 1 32.9 26l-6.7 6.7A14 14 0 1 0 32 5Z"/>
+    <circle cx="32" cy="50" r="7"/>
+    <circle cx="32" cy="50" r="3" fill="#0b1020"/>
   </g>
+  <path d="M13 51 51 13" stroke="#ffb15c" stroke-width="2" stroke-linecap="round" opacity=".28"/>
 </svg>
-

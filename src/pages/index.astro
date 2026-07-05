@@ -4,6 +4,8 @@ import '../styles/global.css';
 
 const categories = [...new Set(tools.map((tool) => tool.category))].sort();
 const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
+
+const themeIcons: Record<string, string> = { light: '☀', dark: '☾', auto: '◐' };
 ---
 
 <!doctype html>
@@ -14,13 +16,33 @@ const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
     <meta name="description" content="A directory of public tool repositories by atlesque." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Tools Directory</title>
+    <script is:inline>
+      (() => {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body>
+    <header class="site-header">
+      <nav class="navbar" aria-label="Main navigation">
+        <a href="/" class="site-title">Tools Directory</a>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle color scheme"
+          title="Toggle color scheme"
+        >
+          {themeIcons['auto']}
+        </button>
+      </nav>
+    </header>
+
     <main class="page-shell">
       <section class="intro" aria-labelledby="page-title">
         <div>
           <p class="eyebrow">atlesque public tools</p>
-          <h1 id="page-title">Tools Directory</h1>
+          <h1 id="page-title" class="sr-only">Tools Directory</h1>
           <p class="lede">
             A one-page index of small utilities, helpers, solvers, converters, and workflow tools.
           </p>
@@ -115,6 +137,34 @@ const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
         } else {
           statusEl.textContent = '';
         }
+      });
+    </script>
+
+    <script>
+      const STORAGE_KEY = 'theme';
+      const order: string[] = ['light', 'dark', 'auto'];
+      const icons: Record<string, string> = { light: '☀', dark: '☾', auto: '◐' };
+      const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+
+      function applyTheme(theme: string) {
+        if (theme === 'auto') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.removeItem(STORAGE_KEY);
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+          localStorage.setItem(STORAGE_KEY, theme);
+        }
+        toggle.textContent = icons[theme];
+      }
+
+      const stored = localStorage.getItem(STORAGE_KEY);
+      const current = stored === 'light' || stored === 'dark' ? stored : 'auto';
+      applyTheme(current);
+
+      toggle.addEventListener('click', () => {
+        const cur = localStorage.getItem(STORAGE_KEY) || 'auto';
+        const idx = (order.indexOf(cur) + 1) % order.length;
+        applyTheme(order[idx]);
       });
     </script>
   </body>
