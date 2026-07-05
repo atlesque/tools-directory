@@ -44,6 +44,7 @@ export const tools: Tool[] = [
     name: 'csv-parser',
     description: 'Client-side CSV parser with a React UI.',
     githubUrl: 'https://github.com/atlesque/csv-parser',
+    websiteUrl: 'https://csv-parser.atlesque.dev/',
     category: 'Developer',
   },
   {
