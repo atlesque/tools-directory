@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap');
+
 :root {
   color-scheme: light;
   --bg: #f6f5ef;
@@ -10,8 +12,18 @@
   --accent-strong: #084f56;
   --warm: #b85f34;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+    'Space Grotesk', Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Sora', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
 }
 
 * {
@@ -55,8 +67,8 @@ a {
   margin: 0 0 10px;
   color: var(--warm);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -71,8 +83,9 @@ dl {
 h1 {
   max-width: 760px;
   font-size: clamp(2.8rem, 8vw, 6.4rem);
-  line-height: 0.94;
-  letter-spacing: 0;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
 }
 
 .lede {
@@ -198,7 +211,9 @@ h1 {
 .category-group h2 {
   margin-bottom: 14px;
   color: var(--accent-strong);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -221,8 +236,10 @@ h1 {
 
 .tool-card h3 {
   overflow-wrap: anywhere;
-  font-size: 1.12rem;
-  line-height: 1.2;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
 }
 
 .tool-card p {
