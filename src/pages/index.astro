@@ -1,0 +1,78 @@
+---
+import { tools } from '../data/tools';
+import '../styles/global.css';
+
+const categories = [...new Set(tools.map((tool) => tool.category))].sort();
+const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A directory of public tool repositories by atlesque." />
+    <title>Tools Directory</title>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">atlesque public tools</p>
+          <h1 id="page-title">Tools Directory</h1>
+          <p class="lede">
+            A one-page index of small utilities, helpers, solvers, converters, and workflow tools.
+          </p>
+        </div>
+        <dl class="stats" aria-label="Directory summary">
+          <div>
+            <dt>{tools.length}</dt>
+            <dd>tools</dd>
+          </div>
+          <div>
+            <dt>{deployedCount}</dt>
+            <dd>verified sites</dd>
+          </div>
+          <div>
+            <dt>{categories.length}</dt>
+            <dd>categories</dd>
+          </div>
+        </dl>
+      </section>
+
+      <nav class="category-nav" aria-label="Tool categories">
+        {categories.map((category) => (
+          <a href={`#${category.toLowerCase()}`}>{category}</a>
+        ))}
+      </nav>
+
+      <section class="tool-grid" aria-label="Tools">
+        {categories.map((category) => (
+          <div class="category-group" id={category.toLowerCase()}>
+            <h2>{category}</h2>
+            <div class="cards">
+              {tools
+                .filter((tool) => tool.category === category)
+                .map((tool) => (
+                  <article class="tool-card">
+                    <div>
+                      <h3>{tool.name}</h3>
+                      <p>{tool.description}</p>
+                    </div>
+                    <div class="links">
+                      {tool.websiteUrl ? (
+                        <a class="primary-link" href={tool.websiteUrl}>Website</a>
+                      ) : (
+                        <span class="muted-link">No verified site</span>
+                      )}
+                      <a href={tool.githubUrl}>GitHub</a>
+                    </div>
+                  </article>
+                ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    </main>
+  </body>
+</html>

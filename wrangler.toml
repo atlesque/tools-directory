@@ -1,0 +1,5 @@
+name = "tools-directory"
+pages_build_output_dir = "dist"
+
+[vars]
+NODE_VERSION = "24"
