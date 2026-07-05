@@ -114,6 +114,8 @@ const themeIcons: Record<string, string> = { light: '☀', dark: '☾', auto: '�
       const searchInput = document.getElementById('tool-search') as HTMLInputElement;
       const statusEl = document.getElementById('search-status') as HTMLSpanElement;
 
+      searchInput.focus();
+
       searchInput.addEventListener('input', () => {
         const query = searchInput.value.trim().toLowerCase();
         const cards = document.querySelectorAll<HTMLElement>('.tool-card');
