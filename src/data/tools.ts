@@ -202,6 +202,13 @@ export const tools: Tool[] = [
     category: 'Text',
   },
   {
+    name: 'Mock Data Generator',
+    description: 'Mock data generator with configurable fields and output formats.',
+    githubUrl: 'https://github.com/atlesque/mock-data-generator',
+    websiteUrl: 'https://mock-data.atlesque.dev/',
+    category: 'Developer',
+  },
+  {
     name: 'WebRTC Video Chat',
     description: 'Minimal WebRTC text/video chat implementation.',
     githubUrl: 'https://github.com/atlesque/webrtc-video-chat',
