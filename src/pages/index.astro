@@ -90,7 +90,7 @@ const themeIcons: Record<string, string> = { light: '☀', dark: '☾', auto: '�
                 .map((tool) => (
                   <article
                     class="tool-card"
-                    data-search-text={`${tool.name} ${tool.description} ${tool.category}`}
+                    data-search-text={`${tool.name} ${tool.description} ${tool.category} ${tool.tags.join(' ')}`}
                   >
                     <div>
                       <h3>{tool.name}</h3>

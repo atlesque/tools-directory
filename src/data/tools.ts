@@ -4,6 +4,7 @@ export type Tool = {
   githubUrl: string;
   websiteUrl?: string;
   category: 'AI' | 'Audio' | 'Documents' | 'Games' | 'Images' | 'Productivity' | 'Text' | 'Web' | 'Developer';
+  tags: string[];
 };
 
 export const tools: Tool[] = [
@@ -12,6 +13,7 @@ export const tools: Tool[] = [
     description: 'Turns Confluence meeting pages into structured, timeboxed agendas with a meeting timer.',
     githubUrl: 'https://github.com/atlesque/agenda-flow',
     category: 'Productivity',
+    tags: ['meeting', 'confluence', 'agenda', 'timer', 'timeboxing'],
   },
   {
     name: 'Among Us Detective',
@@ -19,6 +21,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/among-us-detective',
     websiteUrl: 'https://amongusdetective.com/',
     category: 'Games',
+    tags: ['among us', 'game', 'tracker', 'detective', 'suspects'],
   },
   {
     name: 'Atlesque RNG',
@@ -26,6 +29,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/atlesque-rng',
     websiteUrl: 'https://rng.atlesque.dev/',
     category: 'Productivity',
+    tags: ['random', 'number', 'generator', 'rng'],
   },
   {
     name: 'Audio Blind Test',
@@ -33,12 +37,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/audio-blind-test',
     websiteUrl: 'https://audio-blind-test.atlesque.dev/',
     category: 'Audio',
+    tags: ['audio', 'blind test', 'comparison', 'rating', 'abx'],
   },
   {
     name: 'Copilot Hooks',
     description: 'VS Code Copilot hook scripts that send ntfy notifications for agent/tool events.',
     githubUrl: 'https://github.com/atlesque/copilot-hooks',
     category: 'Developer',
+    tags: ['copilot', 'vs code', 'ntfy', 'hooks', 'notifications'],
   },
   {
     name: 'CSV Parser',
@@ -46,6 +52,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/csv-parser',
     websiteUrl: 'https://csv-parser.atlesque.dev/',
     category: 'Developer',
+    tags: ['csv', 'parser', 'spreadsheet', 'data', 'react'],
   },
   {
     name: 'DeepSeek Peak Hours',
@@ -53,12 +60,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/deepseek-peak-hours',
     websiteUrl: 'https://deepseek-peak.atlesque.dev/',
     category: 'AI',
+    tags: ['deepseek', 'api', 'peak hours', 'time', 'schedule'],
   },
   {
     name: 'Doc Translator',
     description: 'Translates .txt documents using DeepSeek AI, with progress and retry handling.',
     githubUrl: 'https://github.com/atlesque/doc-translator',
     category: 'Documents',
+    tags: ['translator', 'document', 'deepseek', 'ai', 'txt', 'translation'],
   },
   {
     name: 'DOCX Viewer',
@@ -66,6 +75,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/docx-viewer',
     websiteUrl: 'https://docx.atlesque.dev/',
     category: 'Documents',
+    tags: ['docx', 'word', 'document', 'viewer', 'office'],
   },
   {
     name: "Game of Life",
@@ -73,6 +83,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/game-of-life',
     websiteUrl: 'https://gameoflife.atlesque.dev/',
     category: 'Games',
+    tags: ['conway', 'cellular automaton', 'simulation', 'game of life'],
   },
   {
     name: 'Image Detective',
@@ -80,12 +91,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/image-detective',
     websiteUrl: 'https://image-detective.atlesque.dev/',
     category: 'Images',
+    tags: ['image', 'metadata', 'exif', 'viewer', 'photo', 'drag and drop'],
   },
   {
     name: 'Image Slider',
     description: 'WordPress plugin for an ACF/Flickity Gutenberg image slider block.',
     githubUrl: 'https://github.com/atlesque/image-slider',
     category: 'Web',
+    tags: ['wordpress', 'plugin', 'slider', 'acf', 'gutenberg', 'flickity'],
   },
   {
     name: 'Instagram Cropper',
@@ -93,18 +106,21 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/instagram-cropper',
     websiteUrl: 'https://instacrop.atlesque.com/',
     category: 'Images',
+    tags: ['instagram', 'crop', 'resize', 'image', 'social media', 'photo'],
   },
   {
     name: 'Jira Git Branch Namer',
     description: "Chrome extension that rewrites Jira's git branch checkout command.",
     githubUrl: 'https://github.com/atlesque/jira-git-branch-namer',
     category: 'Developer',
+    tags: ['jira', 'git', 'branch', 'chrome', 'extension', 'naming'],
   },
   {
     name: 'JPG to Transparent PNG Converter',
     description: 'Converts near-white pixels in JPG images to transparency in a PNG/canvas workflow.',
     githubUrl: 'https://github.com/atlesque/jpg-to-transparent-png-converter',
     category: 'Images',
+    tags: ['jpg', 'png', 'transparency', 'convert', 'image', 'canvas'],
   },
   {
     name: 'JSON Editor',
@@ -112,6 +128,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/json-editor',
     websiteUrl: 'https://json.atlesque.dev/',
     category: 'Developer',
+    tags: ['json', 'editor', 'vue', 'vite'],
   },
   {
     name: 'MBP Kleuren Contactvoorkeuren',
@@ -119,6 +136,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/mbp-kleuren-contactvoorkeuren',
     websiteUrl: 'https://mbp-kleuren-contactvoorkeuren.atlesque.dev/',
     category: 'Productivity',
+    tags: ['colors', 'reference', 'dutch', 'contactvoorkeuren', 'mbp'],
   },
   {
     name: 'MIDI Visualizer',
@@ -126,6 +144,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/midi-visualizer',
     websiteUrl: 'https://midi-visualizer.atlesque.dev/',
     category: 'Audio',
+    tags: ['midi', 'music', 'visualizer', 'piano roll', 'playback'],
   },
   {
     name: 'Minerva Roulette',
@@ -133,12 +152,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/minerva-roulette',
     websiteUrl: 'https://minerva.atlesque.dev/',
     category: 'Productivity',
+    tags: ['assignment', 'rotation', 'ticket', 'minerva', 'roulette'],
   },
   {
     name: 'Nuclear Launch',
     description: 'Hardware/software trigger project using an RP2040 switch/button to run an action.',
     githubUrl: 'https://github.com/atlesque/nuclear-launch',
     category: 'Developer',
+    tags: ['hardware', 'rp2040', 'button', 'switch', 'trigger', 'raspberry pi'],
   },
   {
     name: 'Polaroid Generator',
@@ -146,6 +167,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/polaroid-generator',
     websiteUrl: 'https://polaroid.atlesque.dev/',
     category: 'Images',
+    tags: ['polaroid', 'frame', 'image', 'photo', 'offline'],
   },
   {
     name: 'Pomodoro Timer',
@@ -153,12 +175,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/pomodoro-timer',
     websiteUrl: 'https://pomodoro.atlesque.dev/',
     category: 'Productivity',
+    tags: ['pomodoro', 'timer', 'focus', 'productivity', 'break'],
   },
   {
     name: 'Pulse',
     description: 'Minimal task/status tracker with API updates and Cloudflare D1 persistence.',
     githubUrl: 'https://github.com/atlesque/pulse',
     category: 'Productivity',
+    tags: ['task', 'tracker', 'status', 'api', 'cloudflare', 'd1'],
   },
   {
     name: 'Scrum Poker',
@@ -166,6 +190,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/scrum-poker',
     websiteUrl: 'https://scrum-poker.atlesque.dev/',
     category: 'Productivity',
+    tags: ['scrum', 'poker', 'planning', 'agile', 'estimation'],
   },
   {
     name: 'Starfield Digipick Solver',
@@ -173,12 +198,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/starfield-digipick-solver',
     websiteUrl: 'https://starfield-digipick-solver.atlesque.dev/',
     category: 'Games',
+    tags: ['starfield', 'digipick', 'lockpick', 'solver', 'puzzle'],
   },
   {
     name: 'Tales from the Loop Helper',
     description: 'Character-sheet helper app for Tales from the Loop.',
     githubUrl: 'https://github.com/atlesque/tales-from-the-loop-helper',
     category: 'Games',
+    tags: ['tales from the loop', 'rpg', 'character sheet', 'ttrpg'],
   },
   {
     name: 'Text Dictator',
@@ -186,6 +213,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/text-dictator',
     websiteUrl: 'https://text-dictator.atlesque.dev/',
     category: 'Text',
+    tags: ['tts', 'text to speech', 'dictation', 'speech', 'voice'],
   },
   {
     name: 'Text Differ',
@@ -193,6 +221,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/text-differ',
     websiteUrl: 'https://diff.atlesque.dev/',
     category: 'Text',
+    tags: ['diff', 'compare', 'text', 'difference', 'side by side'],
   },
   {
     name: 'Text Partitioner',
@@ -200,6 +229,7 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/text-partitioner',
     websiteUrl: 'https://text-partitioner.atlesque.dev/',
     category: 'Text',
+    tags: ['text', 'split', 'partition', 'paragraph', 'chunk'],
   },
   {
     name: 'Mock Data Generator',
@@ -207,11 +237,13 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/mock-data-generator',
     websiteUrl: 'https://mock-data.atlesque.dev/',
     category: 'Developer',
+    tags: ['mock', 'data', 'generator', 'lorem ipsum', 'iban', 'bic', 'bank account'],
   },
   {
     name: 'WebRTC Video Chat',
     description: 'Minimal WebRTC text/video chat implementation.',
     githubUrl: 'https://github.com/atlesque/webrtc-video-chat',
     category: 'Web',
+    tags: ['webrtc', 'video', 'chat', 'peer to peer', 'p2p'],
   },
 ];
