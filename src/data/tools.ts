@@ -16,6 +16,13 @@ export const tools: Tool[] = [
     tags: ['meeting', 'confluence', 'agenda', 'timer', 'timeboxing'],
   },
   {
+    name: 'AI Hooks',
+    description: 'Tool-neutral hook scripts that send ntfy notifications when AI coding agents finish, need permission, or ask for input.',
+    githubUrl: 'https://github.com/atlesque/ai-hooks',
+    category: 'Developer',
+    tags: ['ai', 'codex', 'copilot', 'hooks', 'ntfy', 'notifications'],
+  },
+  {
     name: 'Among Us Detective',
     description: 'Helper for tracking suspects, tasks, and observations while playing Among Us.',
     githubUrl: 'https://github.com/atlesque/among-us-detective',
@@ -38,6 +45,13 @@ export const tools: Tool[] = [
     websiteUrl: 'https://audio-blind-test.atlesque.dev/',
     category: 'Audio',
     tags: ['audio', 'blind test', 'comparison', 'rating', 'abx'],
+  },
+  {
+    name: 'Beauty Plaza Unit Price',
+    description: 'Chrome extension that shows the price per litre or kilogram on Beauty Plaza product pages.',
+    githubUrl: 'https://github.com/atlesque/beauty-plaza-unit-price',
+    category: 'Web',
+    tags: ['beauty plaza', 'unit price', 'chrome', 'extension', 'shopping', 'product'],
   },
   {
     name: 'Copilot Hooks',
@@ -63,6 +77,13 @@ export const tools: Tool[] = [
     tags: ['deepseek', 'api', 'peak hours', 'time', 'schedule'],
   },
   {
+    name: 'DeepSeek Credit Status',
+    description: 'VS Code extension that monitors DeepSeek API credits, balance, warnings, spending, and surge pricing.',
+    githubUrl: 'https://github.com/pantsari/deepseek-usage-tracker',
+    category: 'AI',
+    tags: ['deepseek', 'vscode', 'credits', 'balance', 'api', 'monitor', 'pricing'],
+  },
+  {
     name: 'Doc Translator',
     description: 'Translates .txt documents using DeepSeek AI, with progress and retry handling.',
     githubUrl: 'https://github.com/atlesque/doc-translator',
@@ -84,6 +105,13 @@ export const tools: Tool[] = [
     websiteUrl: 'https://gameoflife.atlesque.dev/',
     category: 'Games',
     tags: ['conway', 'cellular automaton', 'simulation', 'game of life'],
+  },
+  {
+    name: 'Google Sheets Timesheet Sync',
+    description: 'Google Apps Script that syncs timesheet rows to Tempo worklogs and builds monthly and weekly reports.',
+    githubUrl: 'https://github.com/atlesque/tempo-timesheet-sync',
+    category: 'Productivity',
+    tags: ['google sheets', 'apps script', 'jira', 'tempo', 'timesheet', 'worklogs', 'reports'],
   },
   {
     name: 'Image Detective',
@@ -131,6 +159,13 @@ export const tools: Tool[] = [
     tags: ['json', 'editor', 'vue', 'vite'],
   },
   {
+    name: 'KantanLens',
+    description: 'iOS app that scans text with the camera and simplifies it with DeepSeek AI.',
+    githubUrl: 'https://github.com/atlesque/kantan-lens',
+    category: 'Documents',
+    tags: ['ios', 'swiftui', 'ocr', 'text', 'deepseek', 'simplify'],
+  },
+  {
     name: 'MBP Kleuren Contactvoorkeuren',
     description: 'Overview/reference tool for Contactvoorkeuren colors.',
     githubUrl: 'https://github.com/atlesque/mbp-kleuren-contactvoorkeuren',
@@ -162,6 +197,20 @@ export const tools: Tool[] = [
     tags: ['hardware', 'rp2040', 'button', 'switch', 'trigger', 'raspberry pi'],
   },
   {
+    name: 'Outlook Junk Selector',
+    description: 'Chrome extension that selects matching messages in Outlook Web’s Junk Email folder by sensitivity.',
+    githubUrl: 'https://github.com/atlesque/outlook-junk-cleaner',
+    category: 'Productivity',
+    tags: ['outlook', 'junk email', 'chrome', 'extension', 'email', 'selector'],
+  },
+  {
+    name: 'PartyKit Multiplayer Chat',
+    description: 'Anonymous, temporary multiplayer chat with Nuxt and an in-memory PartyKit server.',
+    githubUrl: 'https://github.com/atlesque/partykit-multiplayer-chat',
+    category: 'Web',
+    tags: ['partykit', 'chat', 'multiplayer', 'anonymous', 'realtime', 'nuxt'],
+  },
+  {
     name: 'Polaroid Generator',
     description: 'Offline browser tool that adds a Polaroid frame around an image.',
     githubUrl: 'https://github.com/atlesque/polaroid-generator',
@@ -178,6 +227,13 @@ export const tools: Tool[] = [
     tags: ['pomodoro', 'timer', 'focus', 'productivity', 'break'],
   },
   {
+    name: 'Project Inventory',
+    description: 'Self-hosted project inventory that detects local development projects, tracks ports, and flags conflicts.',
+    githubUrl: 'https://github.com/atlesque/port-advisor',
+    category: 'Developer',
+    tags: ['projects', 'ports', 'scanner', 'inventory', 'cloudflare', 'd1', 'dashboard'],
+  },
+  {
     name: 'Pulse',
     description: 'Minimal task/status tracker with API updates and Cloudflare D1 persistence.',
     githubUrl: 'https://github.com/atlesque/pulse',
@@ -191,6 +247,13 @@ export const tools: Tool[] = [
     websiteUrl: 'https://scrum-poker.atlesque.dev/',
     category: 'Productivity',
     tags: ['scrum', 'poker', 'planning', 'agile', 'estimation'],
+  },
+  {
+    name: 'Server Scripts',
+    description: 'Shell scripts for managing VPS backups, system updates, monitoring maintenance, and notifications.',
+    githubUrl: 'https://github.com/atlesque/server-scripts',
+    category: 'Developer',
+    tags: ['servers', 'vps', 'hetzner', 'backup', 'updates', 'ssh', 'ntfy'],
   },
   {
     name: 'Starfield Digipick Solver',
@@ -232,6 +295,20 @@ export const tools: Tool[] = [
     tags: ['text', 'split', 'partition', 'paragraph', 'chunk'],
   },
   {
+    name: 'Thomann B-Stock Finder',
+    description: 'Bookmarklet that highlights watched B-Stock items on Thomann product listings and hides the rest.',
+    githubUrl: 'https://github.com/atlesque/thomann-b-stock-finder',
+    category: 'Web',
+    tags: ['thomann', 'b-stock', 'bookmarklet', 'shopping', 'filter'],
+  },
+  {
+    name: 'Thomann B-Stock Savings',
+    description: 'Chrome extension that shows the absolute and percentage saving between new and B-stock Thomann products.',
+    githubUrl: 'https://github.com/atlesque/thomann-b-stocker',
+    category: 'Web',
+    tags: ['thomann', 'b-stock', 'chrome', 'extension', 'savings', 'price comparison'],
+  },
+  {
     name: 'Mock Data Generator',
     description: 'Mock data generator with configurable fields and output formats.',
     githubUrl: 'https://github.com/atlesque/mock-data-generator',
@@ -245,5 +322,20 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/atlesque/webrtc-video-chat',
     category: 'Web',
     tags: ['webrtc', 'video', 'chat', 'peer to peer', 'p2p'],
+  },
+  {
+    name: 'Vlaanderen Widget Debugger',
+    description: 'Manifest V3 Chrome extension for inspecting Vlaanderen Burgerprofiel widgets on the active tab.',
+    githubUrl: 'https://github.com/atlesque/vl-widgets-chrome-extension',
+    category: 'Developer',
+    tags: ['vlaanderen', 'burgerprofiel', 'widgets', 'chrome', 'extension', 'debugger'],
+  },
+  {
+    name: 'Vlaanderen Widget Inspector',
+    description: 'Vue and Cloudflare Worker app for inspecting Vlaanderen Burgerprofiel widget scripts and configurations.',
+    githubUrl: 'https://github.com/atlesque/vl-widgets-debugger',
+    websiteUrl: 'https://vl-widgets.atlesque.dev/',
+    category: 'Developer',
+    tags: ['vlaanderen', 'burgerprofiel', 'widgets', 'vue', 'cloudflare', 'worker', 'inspector'],
   },
 ];
