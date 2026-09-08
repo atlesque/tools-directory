@@ -54,6 +54,14 @@ export const tools: Tool[] = [
     tags: ['beauty plaza', 'unit price', 'chrome', 'extension', 'shopping', 'product'],
   },
   {
+    name: "China's 15th Five-Year Plan Explorer",
+    description: 'Source-grounded explorer of the industries, technologies, and systems shaped by China’s 15th Five-Year Plan.',
+    githubUrl: 'https://github.com/atlesque/china-five-year-plan',
+    websiteUrl: 'https://china-five-year-plan.atlesque.dev/',
+    category: 'Documents',
+    tags: ['china', 'five-year plan', 'policy', 'industry', 'technology', 'research'],
+  },
+  {
     name: 'Copilot Hooks',
     description: 'VS Code Copilot hook scripts that send ntfy notifications for agent/tool events.',
     githubUrl: 'https://github.com/atlesque/copilot-hooks',
@@ -82,6 +90,14 @@ export const tools: Tool[] = [
     githubUrl: 'https://github.com/pantsari/deepseek-usage-tracker',
     category: 'AI',
     tags: ['deepseek', 'vscode', 'credits', 'balance', 'api', 'monitor', 'pricing'],
+  },
+  {
+    name: 'Pages Deploy Tracker',
+    description: 'Dashboard for monitoring Cloudflare Pages projects and their recent deployments.',
+    githubUrl: 'https://github.com/atlesque/deploy-tracker',
+    websiteUrl: 'https://deploys.atlesque.dev/',
+    category: 'Developer',
+    tags: ['cloudflare', 'pages', 'deployments', 'monitoring', 'dashboard'],
   },
   {
     name: 'Doc Translator',
