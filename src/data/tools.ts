@@ -56,7 +56,7 @@ export const tools: Tool[] = [
   {
     name: "China's 15th Five-Year Plan Explorer",
     description: 'Source-grounded explorer of the industries, technologies, and systems shaped by China’s 15th Five-Year Plan.',
-    githubUrl: 'https://github.com/atlesque/china-five-year-plan',
+    githubUrl: 'https://github.com/atlesque/china-five-year-plan-explorer',
     websiteUrl: 'https://china-five-year-plan.atlesque.dev/',
     category: 'Documents',
     tags: ['china', 'five-year plan', 'policy', 'industry', 'technology', 'research'],
@@ -94,7 +94,7 @@ export const tools: Tool[] = [
   {
     name: 'Pages Deploy Tracker',
     description: 'Dashboard for monitoring Cloudflare Pages projects and their recent deployments.',
-    githubUrl: 'https://github.com/atlesque/deploy-tracker',
+    githubUrl: 'https://github.com/atlesque/cloudflare-pages-deploy-tracker',
     websiteUrl: 'https://deploys.atlesque.dev/',
     category: 'Developer',
     tags: ['cloudflare', 'pages', 'deployments', 'monitoring', 'dashboard'],
