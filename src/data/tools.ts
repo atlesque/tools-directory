@@ -175,6 +175,14 @@ export const tools: Tool[] = [
     tags: ['json', 'editor', 'vue', 'vite'],
   },
   {
+    name: 'Junk Desk',
+    description: 'Workspace for reviewing Outlook and Hotmail junk mail, rescuing messages to Inbox, and moving unwanted mail with undo.',
+    githubUrl: 'https://github.com/atlesque/outlook-junk-cleaner',
+    websiteUrl: 'https://junk-background.atlesque.dev/',
+    category: 'Productivity',
+    tags: ['outlook', 'hotmail', 'junk email', 'email', 'review', 'cleanup', 'undo'],
+  },
+  {
     name: 'KantanLens',
     description: 'iOS app that scans text with the camera and simplifies it with DeepSeek AI.',
     githubUrl: 'https://github.com/atlesque/kantan-lens',
@@ -265,6 +273,14 @@ export const tools: Tool[] = [
     tags: ['scrum', 'poker', 'planning', 'agile', 'estimation'],
   },
   {
+    name: 'Semina Pini',
+    description: 'Emoji arcade game with timed waves, combos, Fever bonuses, and a relaxed Zen mode.',
+    githubUrl: 'https://github.com/atlesque/semina-be',
+    websiteUrl: 'https://semina.be/',
+    category: 'Games',
+    tags: ['semina', 'pini', 'emoji', 'arcade', 'combo', 'zen'],
+  },
+  {
     name: 'Server Scripts',
     description: 'Shell scripts for managing VPS backups, system updates, monitoring maintenance, and notifications.',
     githubUrl: 'https://github.com/atlesque/server-scripts',
@@ -331,6 +347,14 @@ export const tools: Tool[] = [
     websiteUrl: 'https://mock-data.atlesque.dev/',
     category: 'Developer',
     tags: ['mock', 'data', 'generator', 'lorem ipsum', 'iban', 'bic', 'bank account'],
+  },
+  {
+    name: 'Uptime Monitor',
+    description: 'Cloudflare website uptime monitor with incident history, email and ntfy alerts, maintenance modes, and weekly reports.',
+    githubUrl: 'https://github.com/atlesque/cloudflare-uptime-monitor',
+    websiteUrl: 'https://uptime.atlesque.dev/',
+    category: 'Developer',
+    tags: ['uptime', 'monitoring', 'cloudflare', 'incidents', 'email', 'ntfy', 'reports'],
   },
   {
     name: 'WebRTC Video Chat',
