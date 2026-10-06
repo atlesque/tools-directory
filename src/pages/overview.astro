@@ -1,0 +1,146 @@
+---
+import Shell from '../layouts/Shell.astro';
+import { tools } from '../data/tools';
+import { icon } from '../lib/icons';
+import { categories, categoryColor, countIn, deployedCount, repoOnlyCount } from '../lib/directory';
+
+type Segment = { label: string; count: number; color: string; href: string };
+
+const categorySegments: Segment[] = categories
+  .map((category) => ({
+    label: category,
+    count: countIn(category),
+    color: categoryColor[category],
+    href: `/?category=${encodeURIComponent(category)}`,
+  }))
+  .sort((a, b) => b.count - a.count);
+
+const availabilitySegments: Segment[] = [
+  { label: 'Live website', count: deployedCount, color: '#8b5cf6', href: '/?availability=live' },
+  { label: 'Repository only', count: repoOnlyCount, color: '#22b8cf', href: '/?availability=repo' },
+];
+
+// Donut geometry: one stroked circle per segment, offset along the circumference.
+const radius = 80;
+const circumference = 2 * Math.PI * radius;
+const gap = 7;
+
+function arcs(segments: Segment[]) {
+  const total = segments.reduce((sum, s) => sum + s.count, 0);
+  let start = 0;
+  return segments.map((segment) => {
+    const length = (segment.count / total) * circumference;
+    const arc = {
+      ...segment,
+      percent: (segment.count / total) * 100,
+      dash: `${Math.max(length - gap, 1)} ${circumference}`,
+      offset: -start,
+    };
+    start += length;
+    return arc;
+  });
+}
+
+const charts = [
+  { id: 'categories', label: 'Categories', center: tools.length, caption: 'Public tools', arcs: arcs(categorySegments) },
+  { id: 'availability', label: 'Availability', center: deployedCount, caption: 'Live websites', arcs: arcs(availabilitySegments) },
+];
+---
+
+<Shell page="overview" title="Overview" description="How the atlesque tools directory breaks down by category and availability.">
+  <header class="panel-header">
+    <div class="title-block">
+      <h1>Overview</h1>
+      <span class="badge"><Fragment set:html={icon('chart')} /> {categories.length} categories</span>
+    </div>
+  </header>
+
+  <details class="summary" open>
+    <summary>
+      <span class="chev" set:html={icon('chevron')} />
+      Summary description
+    </summary>
+    <p>
+      A one-page index of small utilities, helpers, solvers, converters, and workflow tools built by atlesque.
+      The directory lists {tools.length} public repositories across {categories.length} categories.
+      {deployedCount} of them run as live websites, and the other {repoOnlyCount} are available as source on GitHub.
+      Select a slice or a row to open that part of the tools list.
+    </p>
+  </details>
+
+  <section class="overview" aria-labelledby="overview-title">
+    <div class="overview-chart">
+      <h2 class="section-label" id="overview-title">Directory overview</h2>
+      {charts.map((chart, i) => (
+        <div class="donut" data-chart={chart.id} hidden={i !== 0}>
+          <svg viewBox="0 0 220 220" role="img" aria-label={`${chart.label} breakdown`}>
+            <circle class="donut-orbit" cx="110" cy="110" r="100" />
+            <circle class="donut-track" cx="110" cy="110" r={radius} />
+            <g transform="rotate(-90 110 110)">
+              {chart.arcs.map((arc) => (
+                <a href={arc.href}>
+                  <circle
+                    class="donut-arc"
+                    cx="110"
+                    cy="110"
+                    r={radius}
+                    stroke={arc.color}
+                    stroke-dasharray={arc.dash}
+                    stroke-dashoffset={arc.offset}
+                  >
+                    <title>{`${arc.label}: ${arc.count}`}</title>
+                  </circle>
+                </a>
+              ))}
+            </g>
+            <circle class="donut-core" cx="110" cy="110" r="60" />
+          </svg>
+          <div class="donut-center">
+            <strong>{chart.center}</strong>
+            <span>{chart.caption}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="overview-legend">
+      <div class="tabs" role="tablist" aria-label="Breakdown">
+        {charts.map((chart, i) => (
+          <button type="button" role="tab" data-tab={chart.id} aria-selected={i === 0 ? 'true' : 'false'}>
+            {chart.label}
+          </button>
+        ))}
+      </div>
+      {charts.map((chart, i) => (
+        <ul class="legend" data-legend={chart.id} hidden={i !== 0}>
+          {chart.arcs.map((arc) => (
+            <li>
+              <a class="legend-item" href={arc.href} style={`--c: ${arc.color}; --p: ${arc.percent.toFixed(1)}%`}>
+                <span class="dot" />
+                <span class="pct">{arc.percent.toFixed(1)}%</span>
+                <span class="name">{arc.label}</span>
+                <span class="count">{arc.count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </section>
+</Shell>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.tab;
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      document.querySelectorAll<HTMLElement>('[data-chart]').forEach((el) => {
+        el.hidden = el.dataset.chart !== id;
+      });
+      document.querySelectorAll<HTMLElement>('[data-legend]').forEach((el) => {
+        el.hidden = el.dataset.legend !== id;
+      });
+    });
+  });
+</script>

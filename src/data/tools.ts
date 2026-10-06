@@ -5,11 +5,14 @@ export type Tool = {
   websiteUrl?: string;
   category: 'AI' | 'Audio' | 'Documents' | 'Games' | 'Images' | 'Productivity' | 'Text' | 'Web' | 'Developer';
   tags: string[];
+  /** Date the tool was added to the directory (YYYY-MM-DD). */
+  added: string;
 };
 
 export const tools: Tool[] = [
   {
     name: 'Miri',
+    added: '2026-10-06',
     description: 'Cat soundboard with sound pages, playback controls, and adjustable volume.',
     githubUrl: 'https://github.com/atlesque/miri-soundboard',
     websiteUrl: 'https://miri.atlesque.dev/',
@@ -18,6 +21,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Chordstand',
+    added: '2026-10-06',
     description: 'Generate, arrange, and save songs with chord diagrams for piano, guitar, and violin.',
     githubUrl: 'https://github.com/atlesque/chordstand',
     websiteUrl: 'https://chordstand.atlesque.dev/',
@@ -26,6 +30,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Gold Price Tracker',
+    added: '2026-10-06',
     description: 'Gold price display with click-to-copy values.',
     githubUrl: 'https://github.com/atlesque/gold-price-tracker',
     websiteUrl: 'https://gold.atlesque.dev/',
@@ -34,6 +39,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'MBP – Scrum City',
+    added: '2026-10-06',
     description: 'Browser-based 80s open-city shooter with exploration, vehicles, and escalating police pursuits.',
     githubUrl: 'https://github.com/atlesque/mbp-scrum-city',
     websiteUrl: 'https://mbp-scrum-city.atlesque.dev/',
@@ -42,6 +48,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Web Design Through the Ages',
+    added: '2026-10-06',
     description: 'Interactive museum of web design history, with each era recreated in its own style.',
     githubUrl: 'https://github.com/atlesque/web-design-through-the-ages',
     websiteUrl: 'https://webdesign.atlesque.dev/',
@@ -50,6 +57,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Clair Obscur: Expedition 33 Guide',
+    added: '2026-10-06',
     description: 'Game guide for Clair Obscur: Expedition 33.',
     githubUrl: 'https://github.com/atlesque/clair-obscur-expedition-33-guide',
     websiteUrl: 'https://coe33.atlesque.dev/',
@@ -58,6 +66,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Mini CCC',
+    added: '2026-10-06',
     description: 'Community information site with a schedule and build showcase.',
     githubUrl: 'https://github.com/atlesque/mini-ccc',
     websiteUrl: 'https://mini-ccc.atlesque.dev/',
@@ -66,6 +75,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Agenda Flow',
+    added: '2026-07-06',
     description: 'Turns Confluence meeting pages into structured, timeboxed agendas with a meeting timer.',
     githubUrl: 'https://github.com/atlesque/agenda-flow',
     category: 'Productivity',
@@ -73,6 +83,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'AI Hooks',
+    added: '2026-08-27',
     description: 'Tool-neutral hook scripts that send ntfy notifications when AI coding agents finish, need permission, or ask for input.',
     githubUrl: 'https://github.com/atlesque/ai-hooks',
     category: 'Developer',
@@ -80,6 +91,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Among Us Detective',
+    added: '2026-07-06',
     description: 'Helper for tracking suspects, tasks, and observations while playing Among Us.',
     githubUrl: 'https://github.com/atlesque/among-us-detective',
     websiteUrl: 'https://amongusdetective.com/',
@@ -88,6 +100,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Atlesque RNG',
+    added: '2026-07-06',
     description: 'Configurable random number generator with min/max and auto-generate interval.',
     githubUrl: 'https://github.com/atlesque/atlesque-rng',
     websiteUrl: 'https://rng.atlesque.dev/',
@@ -96,6 +109,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Audio Blind Test',
+    added: '2026-07-06',
     description: 'Blind audio comparison and rating app with ranked results export.',
     githubUrl: 'https://github.com/atlesque/audio-blind-test',
     websiteUrl: 'https://audio-blind-test.atlesque.dev/',
@@ -104,6 +118,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Beauty Plaza Unit Price',
+    added: '2026-08-27',
     description: 'Chrome extension that shows the price per litre or kilogram on Beauty Plaza product pages.',
     githubUrl: 'https://github.com/atlesque/beauty-plaza-unit-price',
     category: 'Web',
@@ -111,6 +126,7 @@ export const tools: Tool[] = [
   },
   {
     name: "China's 15th Five-Year Plan Explorer",
+    added: '2026-09-08',
     description: 'Source-grounded explorer of the industries, technologies, and systems shaped by China’s 15th Five-Year Plan.',
     githubUrl: 'https://github.com/atlesque/china-five-year-plan-explorer',
     websiteUrl: 'https://china-five-year-plan.atlesque.dev/',
@@ -119,6 +135,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Copilot Hooks',
+    added: '2026-07-06',
     description: 'VS Code Copilot hook scripts that send ntfy notifications for agent/tool events.',
     githubUrl: 'https://github.com/atlesque/copilot-hooks',
     category: 'Developer',
@@ -126,6 +143,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'CSV Parser',
+    added: '2026-07-06',
     description: 'Client-side CSV parser with a React UI.',
     githubUrl: 'https://github.com/atlesque/csv-parser',
     websiteUrl: 'https://csv-parser.atlesque.dev/',
@@ -134,6 +152,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'DeepSeek Peak Hours',
+    added: '2026-07-06',
     description: 'Shows when it is peak hours for using the DeepSeek API.',
     githubUrl: 'https://github.com/atlesque/deepseek-peak-hours',
     websiteUrl: 'https://deepseek-peak.atlesque.dev/',
@@ -142,6 +161,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'DeepSeek Credit Status',
+    added: '2026-08-27',
     description: 'VS Code extension that monitors DeepSeek API credits, balance, warnings, spending, and surge pricing.',
     githubUrl: 'https://github.com/pantsari/deepseek-usage-tracker',
     category: 'AI',
@@ -149,6 +169,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Pages Deploy Tracker',
+    added: '2026-09-08',
     description: 'Dashboard for monitoring Cloudflare Pages projects and their recent deployments.',
     githubUrl: 'https://github.com/atlesque/cloudflare-pages-deploy-tracker',
     websiteUrl: 'https://deploys.atlesque.dev/',
@@ -157,6 +178,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Doc Translator',
+    added: '2026-07-06',
     description: 'Translates .txt documents using DeepSeek AI, with progress and retry handling.',
     githubUrl: 'https://github.com/atlesque/doc-translator',
     category: 'Documents',
@@ -164,6 +186,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'DOCX Viewer',
+    added: '2026-07-06',
     description: 'Client-side .docx Word document viewer.',
     githubUrl: 'https://github.com/atlesque/docx-viewer',
     websiteUrl: 'https://docx.atlesque.dev/',
@@ -172,6 +195,7 @@ export const tools: Tool[] = [
   },
   {
     name: "Game of Life",
+    added: '2026-07-06',
     description: "Interactive Conway's Game of Life simulator.",
     githubUrl: 'https://github.com/atlesque/game-of-life',
     websiteUrl: 'https://gameoflife.atlesque.dev/',
@@ -180,6 +204,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Google Sheets Timesheet Sync',
+    added: '2026-08-27',
     description: 'Google Apps Script that syncs timesheet rows to Tempo worklogs and builds monthly and weekly reports.',
     githubUrl: 'https://github.com/atlesque/tempo-timesheet-sync',
     category: 'Productivity',
@@ -187,6 +212,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Image Detective',
+    added: '2026-07-06',
     description: 'Drag-and-drop image viewer and metadata/EXIF inspector.',
     githubUrl: 'https://github.com/atlesque/image-detective',
     websiteUrl: 'https://image-detective.atlesque.dev/',
@@ -195,6 +221,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Image Slider',
+    added: '2026-07-06',
     description: 'WordPress plugin for an ACF/Flickity Gutenberg image slider block.',
     githubUrl: 'https://github.com/atlesque/image-slider',
     category: 'Web',
@@ -202,6 +229,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Instagram Cropper',
+    added: '2026-07-06',
     description: 'Resizes images to Instagram ratios and adds background when needed.',
     githubUrl: 'https://github.com/atlesque/instagram-cropper',
     websiteUrl: 'https://instacrop.atlesque.com/',
@@ -210,6 +238,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Jira Git Branch Namer',
+    added: '2026-07-06',
     description: "Chrome extension that rewrites Jira's git branch checkout command.",
     githubUrl: 'https://github.com/atlesque/jira-git-branch-namer',
     category: 'Developer',
@@ -217,6 +246,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'JPG to Transparent PNG Converter',
+    added: '2026-07-06',
     description: 'Converts near-white pixels in JPG images to transparency in a PNG/canvas workflow.',
     githubUrl: 'https://github.com/atlesque/jpg-to-transparent-png-converter',
     category: 'Images',
@@ -224,6 +254,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'JSON Editor',
+    added: '2026-07-06',
     description: 'Simple JSON editor built with Vue 3 and Vite.',
     githubUrl: 'https://github.com/atlesque/json-editor',
     websiteUrl: 'https://json.atlesque.dev/',
@@ -232,6 +263,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Junk Desk',
+    added: '2026-10-04',
     description: 'Workspace for reviewing Outlook and Hotmail junk mail, rescuing messages to Inbox, and moving unwanted mail with undo.',
     githubUrl: 'https://github.com/atlesque/outlook-junk-cleaner',
     websiteUrl: 'https://junk-background.atlesque.dev/',
@@ -240,6 +272,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'KantanLens',
+    added: '2026-08-27',
     description: 'iOS app that scans text with the camera and simplifies it with DeepSeek AI.',
     githubUrl: 'https://github.com/atlesque/kantan-lens',
     category: 'Documents',
@@ -247,6 +280,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'MBP Kleuren Contactvoorkeuren',
+    added: '2026-07-06',
     description: 'Overview/reference tool for Contactvoorkeuren colors.',
     githubUrl: 'https://github.com/atlesque/mbp-kleuren-contactvoorkeuren',
     websiteUrl: 'https://mbp-kleuren-contactvoorkeuren.atlesque.dev/',
@@ -255,6 +289,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'MIDI Visualizer',
+    added: '2026-07-06',
     description: 'Drag-and-drop MIDI piano-roll visualizer with playback controls.',
     githubUrl: 'https://github.com/atlesque/midi-visualizer',
     websiteUrl: 'https://midi-visualizer.atlesque.dev/',
@@ -263,6 +298,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Minerva Roulette',
+    added: '2026-07-06',
     description: 'Rotating assignment tool for determining who handles MIN tickets each week.',
     githubUrl: 'https://github.com/atlesque/minerva-roulette',
     websiteUrl: 'https://minerva.atlesque.dev/',
@@ -271,6 +307,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Nuclear Launch',
+    added: '2026-07-06',
     description: 'Hardware/software trigger project using an RP2040 switch/button to run an action.',
     githubUrl: 'https://github.com/atlesque/nuclear-launch',
     category: 'Developer',
@@ -278,6 +315,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Outlook Junk Selector',
+    added: '2026-08-27',
     description: 'Chrome extension that selects matching messages in Outlook Web’s Junk Email folder by sensitivity.',
     githubUrl: 'https://github.com/atlesque/outlook-junk-cleaner',
     category: 'Productivity',
@@ -285,6 +323,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'PartyKit Multiplayer Chat',
+    added: '2026-08-27',
     description: 'Anonymous, temporary multiplayer chat with Nuxt and an in-memory PartyKit server.',
     githubUrl: 'https://github.com/atlesque/partykit-multiplayer-chat',
     category: 'Web',
@@ -292,6 +331,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Polaroid Generator',
+    added: '2026-07-06',
     description: 'Offline browser tool that adds a Polaroid frame around an image.',
     githubUrl: 'https://github.com/atlesque/polaroid-generator',
     websiteUrl: 'https://polaroid.atlesque.dev/',
@@ -300,6 +340,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Pomodoro Timer',
+    added: '2026-07-06',
     description: 'Focus timer with work/break intervals based on the Pomodoro Technique.',
     githubUrl: 'https://github.com/atlesque/pomodoro-timer',
     websiteUrl: 'https://pomodoro.atlesque.dev/',
@@ -308,6 +349,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Project Inventory',
+    added: '2026-08-27',
     description: 'Self-hosted project inventory that detects local development projects, tracks ports, and flags conflicts.',
     githubUrl: 'https://github.com/atlesque/port-advisor',
     category: 'Developer',
@@ -315,6 +357,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Pulse',
+    added: '2026-07-06',
     description: 'Minimal task/status tracker with API updates and Cloudflare D1 persistence.',
     githubUrl: 'https://github.com/atlesque/pulse',
     category: 'Productivity',
@@ -322,6 +365,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Scrum Poker',
+    added: '2026-07-06',
     description: 'Real-time planning poker app for agile teams.',
     githubUrl: 'https://github.com/atlesque/scrum-poker',
     websiteUrl: 'https://scrum-poker.atlesque.dev/',
@@ -330,6 +374,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Semina Pini',
+    added: '2026-10-04',
     description: 'Emoji arcade game with timed waves, combos, Fever bonuses, and a relaxed Zen mode.',
     githubUrl: 'https://github.com/atlesque/semina-be',
     websiteUrl: 'https://semina.be/',
@@ -338,6 +383,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Server Scripts',
+    added: '2026-08-27',
     description: 'Shell scripts for managing VPS backups, system updates, monitoring maintenance, and notifications.',
     githubUrl: 'https://github.com/atlesque/server-scripts',
     category: 'Developer',
@@ -345,6 +391,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Starfield Digipick Solver',
+    added: '2026-07-06',
     description: 'Solver for Starfield Digipick lockpicking puzzles.',
     githubUrl: 'https://github.com/atlesque/starfield-digipick-solver',
     websiteUrl: 'https://starfield-digipick-solver.atlesque.dev/',
@@ -353,6 +400,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Tales from the Loop Helper',
+    added: '2026-07-06',
     description: 'Character-sheet helper app for Tales from the Loop.',
     githubUrl: 'https://github.com/atlesque/tales-from-the-loop-helper',
     category: 'Games',
@@ -360,6 +408,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Text Dictator',
+    added: '2026-07-06',
     description: 'Text-to-speech dictation app with repeat, rate, voice, and active-text controls.',
     githubUrl: 'https://github.com/atlesque/text-dictator',
     websiteUrl: 'https://text-dictator.atlesque.dev/',
@@ -368,6 +417,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Text Differ',
+    added: '2026-07-06',
     description: 'Side-by-side text comparison and diff visualizer.',
     githubUrl: 'https://github.com/atlesque/text-differ',
     websiteUrl: 'https://diff.atlesque.dev/',
@@ -376,6 +426,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Text Partitioner',
+    added: '2026-07-06',
     description: 'Splits large text blocks into cleaner paragraph-like chunks.',
     githubUrl: 'https://github.com/atlesque/text-partitioner',
     websiteUrl: 'https://text-partitioner.atlesque.dev/',
@@ -384,6 +435,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Thomann B-Stock Finder',
+    added: '2026-08-27',
     description: 'Bookmarklet that highlights watched B-Stock items on Thomann product listings and hides the rest.',
     githubUrl: 'https://github.com/atlesque/thomann-b-stock-finder',
     category: 'Web',
@@ -391,6 +443,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Thomann B-Stock Savings',
+    added: '2026-08-27',
     description: 'Chrome extension that shows the absolute and percentage saving between new and B-stock Thomann products.',
     githubUrl: 'https://github.com/atlesque/thomann-b-stocker',
     category: 'Web',
@@ -398,6 +451,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Mock Data Generator',
+    added: '2026-07-07',
     description: 'Mock data generator with configurable fields and output formats.',
     githubUrl: 'https://github.com/atlesque/mock-data-generator',
     websiteUrl: 'https://mock-data.atlesque.dev/',
@@ -406,6 +460,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Uptime Monitor',
+    added: '2026-10-04',
     description: 'Cloudflare website uptime monitor with incident history, email and ntfy alerts, maintenance modes, and weekly reports.',
     githubUrl: 'https://github.com/atlesque/cloudflare-uptime-monitor',
     websiteUrl: 'https://uptime.atlesque.dev/',
@@ -414,6 +469,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'WebRTC Video Chat',
+    added: '2026-07-06',
     description: 'Minimal WebRTC text/video chat implementation.',
     githubUrl: 'https://github.com/atlesque/webrtc-video-chat',
     category: 'Web',
@@ -421,6 +477,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Vlaanderen Widget Debugger',
+    added: '2026-08-27',
     description: 'Manifest V3 Chrome extension for inspecting Vlaanderen Burgerprofiel widgets on the active tab.',
     githubUrl: 'https://github.com/atlesque/vl-widgets-chrome-extension',
     category: 'Developer',
@@ -428,6 +485,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'Vlaanderen Widget Inspector',
+    added: '2026-08-27',
     description: 'Vue and Cloudflare Worker app for inspecting Vlaanderen Burgerprofiel widget scripts and configurations.',
     githubUrl: 'https://github.com/atlesque/vl-widgets-debugger',
     websiteUrl: 'https://vl-widgets.atlesque.dev/',

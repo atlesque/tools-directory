@@ -1,0 +1,64 @@
+---
+import Shell from '../layouts/Shell.astro';
+import { tools, type Tool } from '../data/tools';
+import { icon } from '../lib/icons';
+import { categoryColor, formatDate, toolsByDate } from '../lib/directory';
+
+const batches = toolsByDate.reduce<{ date: string; tools: Tool[] }[]>((acc, tool) => {
+  const last = acc.at(-1);
+  if (last?.date === tool.added) last.tools.push(tool);
+  else acc.push({ date: tool.added, tools: [tool] });
+  return acc;
+}, []);
+
+const first = toolsByDate.at(-1)?.added ?? '';
+---
+
+<Shell page="history" title="History" description="When each tool was added to the atlesque tools directory.">
+  <header class="panel-header">
+    <div class="title-block">
+      <h1>History</h1>
+      <span class="badge">
+        <Fragment set:html={icon('history')} />
+        {batches.length} updates since {formatDate(first, { month: 'short', year: 'numeric' })}
+      </span>
+    </div>
+  </header>
+
+  <ol class="timeline">
+    {batches.map((batch, i) => (
+      <li class:list={['timeline-batch', { 'is-latest': i === 0 }]}>
+        <div class="timeline-marker" aria-hidden="true" />
+        <div class="timeline-head">
+          <time datetime={batch.date}>{formatDate(batch.date)}</time>
+          <span class="timeline-count">
+            +{batch.tools.length} tool{batch.tools.length === 1 ? '' : 's'}
+          </span>
+        </div>
+        <ul class="timeline-items">
+          {batch.tools.map((tool) => (
+            <li class="timeline-item" style={`--c: ${categoryColor[tool.category]}`}>
+              <div class="timeline-item-body">
+                <a class="timeline-name" href={tool.websiteUrl ?? tool.githubUrl}>{tool.name}</a>
+                <span class="timeline-cat"><span class="dot" />{tool.category}</span>
+                <p>{tool.description}</p>
+              </div>
+              <div class="links">
+                {tool.websiteUrl && (
+                  <a class="primary-link" href={tool.websiteUrl}>
+                    Website <Fragment set:html={icon('external')} />
+                  </a>
+                )}
+                <a href={tool.githubUrl}>
+                  <Fragment set:html={icon('github')} /> GitHub
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ol>
+
+  <p class="timeline-foot">{tools.length} tools in total.</p>
+</Shell>

@@ -1,173 +1,221 @@
 ---
+import Shell from '../layouts/Shell.astro';
 import { tools } from '../data/tools';
-import '../styles/global.css';
-
-const categories = [...new Set(tools.map((tool) => tool.category))].sort();
-const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
-
-const themeIcons: Record<string, string> = { light: '☀', dark: '☾', auto: '◐' };
+import { icon } from '../lib/icons';
+import { categories, categoryColor, countIn, deployedCount, slug } from '../lib/directory';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A directory of public tool repositories by atlesque." />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Tools Directory</title>
-    <script is:inline>
-      (() => {
-        const t = localStorage.getItem('theme');
-        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-      })();
-    </script>
-  </head>
-  <body>
-    <header class="site-header">
-      <nav class="navbar" aria-label="Main navigation">
-        <a href="/" class="site-title">Tools Directory</a>
-        <button
-          class="theme-toggle"
-          type="button"
-          aria-label="Toggle color scheme"
-          title="Toggle color scheme"
-        >
-          {themeIcons['auto']}
-        </button>
-      </nav>
-    </header>
-
-    <main class="page-shell">
-      <section class="intro" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">atlesque public tools</p>
-          <h1 id="page-title" class="sr-only">Tools Directory</h1>
-          <p class="lede">
-            A one-page index of small utilities, helpers, solvers, converters, and workflow tools.
-          </p>
-        </div>
-        <dl class="stats" aria-label="Directory summary">
-          <div>
-            <dt>{tools.length}</dt>
-            <dd>tools</dd>
-          </div>
-          <div>
-            <dt>{deployedCount}</dt>
-            <dd>verified sites</dd>
-          </div>
-          <div>
-            <dt>{categories.length}</dt>
-            <dd>categories</dd>
-          </div>
-        </dl>
-      </section>
-
-      <nav class="category-nav" aria-label="Tool categories">
-        {categories.map((category) => (
-          <a href={`#${category.toLowerCase()}`}>{category}</a>
-        ))}
-      </nav>
-
-      <div class="search-bar">
-        <label for="tool-search" class="sr-only">Search tools</label>
-        <input
-          id="tool-search"
-          type="search"
-          placeholder="Search tools by name, description, or category…"
-          autocomplete="off"
-        />
-        <span class="search-status" id="search-status" aria-live="polite"></span>
+<Shell page="tools" title="Tools">
+  <header class="panel-header">
+    <div class="title-block">
+      <h1>Tools Directory</h1>
+      <span class="badge"><Fragment set:html={icon('tag')} /> {tools.length} tools · {deployedCount} live sites</span>
+    </div>
+    <div class="toolbar">
+      <label class="search-field">
+        <span class="sr-only">Search tools</span>
+        <input id="tool-search" type="search" placeholder="Search for tools" autocomplete="off" />
+        <Fragment set:html={icon('search')} />
+      </label>
+      <div class="segmented view-toggle" role="group" aria-label="Layout">
+        <button type="button" data-view="grid" aria-label="Grid view" title="Grid view" set:html={icon('grid')} />
+        <button type="button" data-view="list" aria-label="List view" title="List view" set:html={icon('list')} />
       </div>
+    </div>
+  </header>
 
-      <section class="tool-grid" aria-label="Tools">
-        {categories.map((category) => (
-          <div class="category-group" id={category.toLowerCase()}>
-            <h2>{category}</h2>
-            <div class="cards">
-              {tools
-                .filter((tool) => tool.category === category)
-                .map((tool) => (
-                  <article
-                    class="tool-card"
-                    data-search-text={`${tool.name} ${tool.description} ${tool.category} ${tool.tags.join(' ')}`}
-                  >
-                    <div>
-                      <h3>{tool.name}</h3>
-                      <p>{tool.description}</p>
-                    </div>
-                    <div class="links">
-                      {tool.websiteUrl && (
-                        <a class="primary-link" href={tool.websiteUrl}>Website</a>
-                      )}
-                      <a href={tool.githubUrl}>GitHub</a>
-                    </div>
-                  </article>
-                ))}
-            </div>
-          </div>
-        ))}
-      </section>
-    </main>
+  <nav class="category-chips" aria-label="Filter by category">
+    <button type="button" class="cat-chip" data-category="" aria-pressed="true">All</button>
+    {categories.map((category) => (
+      <button
+        type="button"
+        class="cat-chip"
+        data-category={category}
+        aria-pressed="false"
+        style={`--c: ${categoryColor[category]}`}
+      >
+        <span class="dot" />
+        {category}
+        <span class="cat-count">{countIn(category)}</span>
+      </button>
+    ))}
+  </nav>
 
-    <script>
-      const searchInput = document.getElementById('tool-search') as HTMLInputElement;
-      const statusEl = document.getElementById('search-status') as HTMLSpanElement;
+  <section class="tools" aria-label="Tools">
+    <div class="tools-head">
+      <span class="search-status" id="search-status" aria-live="polite"></span>
+    </div>
 
-      searchInput.focus();
+    {categories.map((category) => (
+      <div class="category-group" id={slug(category)} style={`--c: ${categoryColor[category]}`}>
+        <h2 class="category-title">
+          <span class="dot" />
+          {category}
+          <span class="category-count">{countIn(category)}</span>
+        </h2>
+        <div class="cards">
+          {tools
+            .filter((tool) => tool.category === category)
+            .map((tool) => (
+              <article
+                class="tool-card"
+                data-category={tool.category}
+                data-live={tool.websiteUrl ? 'true' : 'false'}
+                data-search-text={`${tool.name} ${tool.description} ${tool.category} ${tool.tags.join(' ')}`}
+              >
+                <div class="tool-body">
+                  <h3>{tool.name}</h3>
+                  <p>{tool.description}</p>
+                </div>
+                <div class="links">
+                  {tool.websiteUrl && (
+                    <a class="primary-link" href={tool.websiteUrl}>
+                      Website <Fragment set:html={icon('external')} />
+                    </a>
+                  )}
+                  <a href={tool.githubUrl}>
+                    <Fragment set:html={icon('github')} /> GitHub
+                  </a>
+                </div>
+              </article>
+            ))}
+        </div>
+      </div>
+    ))}
 
-      searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim().toLowerCase();
-        const cards = document.querySelectorAll<HTMLElement>('.tool-card');
-        const groups = document.querySelectorAll<HTMLElement>('.category-group');
-        let visibleCount = 0;
+    <p class="empty-state" id="empty-state" hidden>No tools match these filters.</p>
+  </section>
 
-        cards.forEach((card) => {
-          const text = (card.dataset.searchText ?? '').toLowerCase();
-          const match = !query || text.includes(query);
-          card.classList.toggle('hidden', !match);
-          if (match) visibleCount++;
-        });
+  <div class="action-dock" slot="dock" role="toolbar" aria-label="Directory actions">
+    <div class="dock-chips">
+      <button type="button" class="chip" data-action="random">
+        <Fragment set:html={icon('shuffle')} /> Surprise me
+      </button>
+      <button type="button" class="chip" data-action="live" aria-pressed="false">
+        <Fragment set:html={icon('filter')} /> Live sites only
+      </button>
+      <button type="button" class="chip" data-action="reset">
+        <Fragment set:html={icon('reset')} /> Clear filters
+      </button>
+    </div>
+    <div class="dock-buttons">
+      <a class="dock-btn is-solid" href="/overview"><Fragment set:html={icon('chart')} /> Overview</a>
+      <a class="dock-btn" href="#top"><Fragment set:html={icon('arrowUp')} /> Top</a>
+    </div>
+  </div>
+</Shell>
 
-        groups.forEach((group) => {
-          const visibleCards = group.querySelectorAll('.tool-card:not(.hidden)');
-          group.classList.toggle('hidden', visibleCards.length === 0);
-        });
+<script>
+  const root = document.documentElement;
+  const searchInput = document.getElementById('tool-search') as HTMLInputElement;
+  const statusEl = document.getElementById('search-status') as HTMLSpanElement;
+  const emptyEl = document.getElementById('empty-state') as HTMLParagraphElement;
+  const cards = [...document.querySelectorAll<HTMLElement>('.tool-card')];
+  const groups = [...document.querySelectorAll<HTMLElement>('.category-group')];
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.cat-chip')];
 
-        if (query) {
-          statusEl.textContent = `${visibleCount} tool${visibleCount !== 1 ? 's' : ''} found`;
-        } else {
-          statusEl.textContent = '';
-        }
-      });
-    </script>
+  // Filters can arrive from the overview page, e.g. /?category=Games or /?availability=live.
+  const params = new URLSearchParams(location.search);
+  const state = {
+    query: params.get('q') ?? '',
+    category: params.get('category') ?? '',
+    availability: params.get('availability') === 'live' || params.get('availability') === 'repo'
+      ? (params.get('availability') as string)
+      : '',
+  };
+  searchInput.value = state.query;
 
-    <script>
-      const STORAGE_KEY = 'theme';
-      const order: string[] = ['light', 'dark', 'auto'];
-      const icons: Record<string, string> = { light: '☀', dark: '☾', auto: '◐' };
-      const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+  function syncUrl() {
+    const next = new URLSearchParams();
+    if (state.query) next.set('q', state.query);
+    if (state.category) next.set('category', state.category);
+    if (state.availability) next.set('availability', state.availability);
+    const qs = next.toString();
+    history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+  }
 
-      function applyTheme(theme: string) {
-        if (theme === 'auto') {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.removeItem(STORAGE_KEY);
-        } else {
-          document.documentElement.setAttribute('data-theme', theme);
-          localStorage.setItem(STORAGE_KEY, theme);
-        }
-        toggle.textContent = icons[theme];
+  function apply() {
+    const query = state.query.toLowerCase();
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const text = (card.dataset.searchText ?? '').toLowerCase();
+      const match =
+        (!query || text.includes(query)) &&
+        (!state.category || card.dataset.category === state.category) &&
+        (!state.availability || (card.dataset.live === 'true') === (state.availability === 'live'));
+      card.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+
+    groups.forEach((group) => {
+      group.classList.toggle('hidden', !group.querySelector('.tool-card:not(.hidden)'));
+    });
+
+    const filtered = state.query || state.category || state.availability;
+    const label = state.availability === 'repo' ? ' · repository only' : state.availability === 'live' ? ' · live sites' : '';
+    statusEl.textContent = filtered ? `${visible} of ${cards.length} tools${label}` : `${cards.length} tools`;
+    emptyEl.hidden = visible > 0;
+
+    chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.category === state.category)));
+    document.querySelectorAll<HTMLElement>('[data-action="live"]').forEach((el) => {
+      el.setAttribute('aria-pressed', String(state.availability === 'live'));
+    });
+    syncUrl();
+  }
+
+  searchInput.addEventListener('input', () => {
+    state.query = searchInput.value.trim();
+    apply();
+  });
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      state.category = chip.dataset.category ?? '';
+      apply();
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-action]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.action;
+      if (action === 'live') {
+        state.availability = state.availability === 'live' ? '' : 'live';
+        apply();
       }
+      if (action === 'reset') {
+        state.query = '';
+        state.category = '';
+        state.availability = '';
+        searchInput.value = '';
+        apply();
+      }
+      if (action === 'random') {
+        const pool = cards.filter((c) => !c.classList.contains('hidden'));
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        if (!pick) return;
+        cards.forEach((c) => c.classList.remove('is-picked'));
+        pick.classList.add('is-picked');
+        pick.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        pick.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+      }
+    });
+  });
 
-      const stored = localStorage.getItem(STORAGE_KEY);
-      const current = stored === 'light' || stored === 'dark' ? stored : 'auto';
-      applyTheme(current);
+  // ── Layout toggle ──────────────────────────
+  const viewButtons = document.querySelectorAll<HTMLButtonElement>('[data-view]');
+  function applyView(view: string) {
+    if (view === 'list') root.setAttribute('data-view', 'list');
+    else root.removeAttribute('data-view');
+    viewButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    try {
+      if (view === 'list') localStorage.setItem('view', 'list');
+      else localStorage.removeItem('view');
+    } catch {}
+  }
+  viewButtons.forEach((b) => b.addEventListener('click', () => applyView(b.dataset.view ?? 'grid')));
+  applyView(root.getAttribute('data-view') === 'list' ? 'list' : 'grid');
 
-      toggle.addEventListener('click', () => {
-        const cur = localStorage.getItem(STORAGE_KEY) || 'auto';
-        const idx = (order.indexOf(cur) + 1) % order.length;
-        applyTheme(order[idx]);
-      });
-    </script>
-  </body>
-</html>
+  apply();
+  if (!state.category && !state.availability) searchInput.focus({ preventScroll: true });
+</script>
