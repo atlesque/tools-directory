@@ -83,7 +83,13 @@ import { categories, categoryColor, countIn, deployedCount, slug } from '../lib/
       </div>
     ))}
 
-    <p class="empty-state" id="empty-state" hidden>No tools match these filters.</p>
+    <div class="empty-state" id="empty-state" hidden>
+      <p>No tools match these filters.</p>
+      <div class="elsewhere" id="elsewhere" hidden>
+        <span>Found in</span>
+        <div class="elsewhere-chips" id="elsewhere-chips"></div>
+      </div>
+    </div>
   </section>
 
   <div class="action-dock" slot="dock" role="toolbar" aria-label="Directory actions">
@@ -109,7 +115,9 @@ import { categories, categoryColor, countIn, deployedCount, slug } from '../lib/
   const root = document.documentElement;
   const searchInput = document.getElementById('tool-search') as HTMLInputElement;
   const statusEl = document.getElementById('search-status') as HTMLSpanElement;
-  const emptyEl = document.getElementById('empty-state') as HTMLParagraphElement;
+  const emptyEl = document.getElementById('empty-state') as HTMLDivElement;
+  const elsewhereEl = document.getElementById('elsewhere') as HTMLDivElement;
+  const elsewhereChips = document.getElementById('elsewhere-chips') as HTMLDivElement;
   const cards = [...document.querySelectorAll<HTMLElement>('.tool-card')];
   const groups = [...document.querySelectorAll<HTMLElement>('.category-group')];
   const chips = [...document.querySelectorAll<HTMLButtonElement>('.cat-chip')];
@@ -137,15 +145,19 @@ import { categories, categoryColor, countIn, deployedCount, slug } from '../lib/
   function apply() {
     const query = state.query.toLowerCase();
     let visible = 0;
+    // Matches in other categories, used to point elsewhere when the selected one is empty.
+    const otherMatches = new Map<string, number>();
 
     cards.forEach((card) => {
       const text = (card.dataset.searchText ?? '').toLowerCase();
-      const match =
+      const category = card.dataset.category ?? '';
+      const matchesRest =
         (!query || text.includes(query)) &&
-        (!state.category || card.dataset.category === state.category) &&
         (!state.availability || (card.dataset.live === 'true') === (state.availability === 'live'));
+      const match = matchesRest && (!state.category || category === state.category);
       card.classList.toggle('hidden', !match);
       if (match) visible++;
+      else if (matchesRest) otherMatches.set(category, (otherMatches.get(category) ?? 0) + 1);
     });
 
     groups.forEach((group) => {
@@ -156,6 +168,25 @@ import { categories, categoryColor, countIn, deployedCount, slug } from '../lib/
     const label = state.availability === 'repo' ? ' · repository only' : state.availability === 'live' ? ' · live sites' : '';
     statusEl.textContent = filtered ? `${visible} of ${cards.length} tools${label}` : `${cards.length} tools`;
     emptyEl.hidden = visible > 0;
+
+    const showElsewhere = visible === 0 && Boolean(state.query && state.category) && otherMatches.size > 0;
+    elsewhereEl.hidden = !showElsewhere;
+    elsewhereChips.replaceChildren();
+    if (showElsewhere) {
+      chips
+        .filter((chip) => otherMatches.has(chip.dataset.category ?? ''))
+        .forEach((chip) => {
+          const category = chip.dataset.category ?? '';
+          const link = chip.cloneNode(true) as HTMLButtonElement;
+          link.removeAttribute('aria-pressed');
+          link.querySelector('.cat-count')!.textContent = String(otherMatches.get(category));
+          link.addEventListener('click', () => {
+            state.category = category;
+            apply();
+          });
+          elsewhereChips.append(link);
+        });
+    }
 
     chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.category === state.category)));
     document.querySelectorAll<HTMLElement>('[data-action="live"]').forEach((el) => {
