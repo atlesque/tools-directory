@@ -1,0 +1,141 @@
+---
+import { tools } from '../data/tools';
+import { icon } from '../lib/icons';
+import { recentTools } from '../lib/directory';
+import '../styles/global.css';
+
+type Page = 'tools' | 'overview' | 'history';
+
+interface Props {
+  page: Page;
+  title: string;
+  description?: string;
+}
+
+const { page, title, description = 'A directory of public tool repositories by atlesque.' } = Astro.props;
+
+const pages = [
+  { id: 'tools', href: '/', label: 'Tools', icon: 'layers', badge: tools.length },
+  { id: 'overview', href: '/overview', label: 'Overview', icon: 'chart' },
+  { id: 'history', href: '/history', label: 'History', icon: 'history' },
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{page === 'tools' ? 'Tools Directory' : `${title} · Tools Directory`}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+          const v = localStorage.getItem('view');
+          if (v === 'list') document.documentElement.setAttribute('data-view', 'list');
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true">
+      <svg class="backdrop-lines" viewBox="0 0 1600 900" preserveAspectRatio="none">
+        <polyline points="0,640 80,600 130,660 210,520 260,560 330,430 380,470 470,380 520,420 600,300 660,350 720,260" />
+        <polyline points="900,820 980,760 1030,790 1110,690 1160,720 1240,600 1300,640 1380,520 1430,560 1520,440 1600,470" />
+        <polyline class="warm" points="1180,900 1240,830 1290,860 1350,760 1400,800 1470,700 1530,740 1600,680" />
+      </svg>
+    </div>
+
+    <div class="app">
+      <aside class="sidebar" aria-label="Site">
+        <a href="/" class="brand" aria-label="Tools Directory home">
+          <img src="/favicon.svg" alt="" width="40" height="40" />
+        </a>
+        <nav class="sidebar-group" aria-label="Pages">
+          {pages.map((p) => (
+            <a
+              class="side-btn"
+              href={p.href}
+              title={p.label}
+              aria-label={p.label}
+              aria-current={p.id === page ? 'page' : undefined}
+            >
+              <Fragment set:html={icon(p.icon)} />
+              {'badge' in p && <span class="side-badge">{p.badge}</span>}
+            </a>
+          ))}
+        </nav>
+        <div class="sidebar-group sidebar-bottom">
+          <a
+            class="side-btn"
+            href="https://github.com/atlesque"
+            title="atlesque on GitHub"
+            aria-label="atlesque on GitHub"
+            set:html={icon('github')}
+          />
+        </div>
+      </aside>
+
+      <div class="workspace" id="top">
+        <main class="panel">
+          <nav class="page-tabs" aria-label="Pages">
+            {pages.map((p) => (
+              <a href={p.href} aria-current={p.id === page ? 'page' : undefined}>
+                <Fragment set:html={icon(p.icon)} />
+                {p.label}
+              </a>
+            ))}
+          </nav>
+          <slot />
+        </main>
+
+        <aside class="rail" aria-label="Recently added">
+          <div class="segmented theme-toggle" role="group" aria-label="Color scheme">
+            <button type="button" data-theme-choice="light" aria-label="Light theme" title="Light" set:html={icon('sun')} />
+            <button type="button" data-theme-choice="auto" aria-label="System theme" title="System" set:html={icon('auto')} />
+            <button type="button" data-theme-choice="dark" aria-label="Dark theme" title="Dark" set:html={icon('moon')} />
+          </div>
+          {page !== 'history' && (
+            <>
+              <h2 class="rail-title">Recently added</h2>
+              <ol class="recent-list">
+                {recentTools.map((tool, i) => (
+                  <li class={i === 0 ? 'is-latest' : undefined}>
+                    <a href={tool.websiteUrl ?? tool.githubUrl}>{tool.name}</a>
+                  </li>
+                ))}
+              </ol>
+              <a class="rail-more" href="/history">
+                Full history <Fragment set:html={icon('arrowRight')} />
+              </a>
+            </>
+          )}
+        </aside>
+
+        <slot name="dock" />
+      </div>
+    </div>
+
+    <script>
+      const root = document.documentElement;
+      const themeButtons = document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]');
+
+      function applyTheme(theme: string) {
+        if (theme === 'auto') root.removeAttribute('data-theme');
+        else root.setAttribute('data-theme', theme);
+        try {
+          if (theme === 'auto') localStorage.removeItem('theme');
+          else localStorage.setItem('theme', theme);
+        } catch {}
+        themeButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeChoice === theme)));
+      }
+
+      themeButtons.forEach((b) => b.addEventListener('click', () => applyTheme(b.dataset.themeChoice ?? 'auto')));
+      const current = root.getAttribute('data-theme');
+      applyTheme(current === 'light' || current === 'dark' ? current : 'auto');
+    </script>
+  </body>
+</html>
