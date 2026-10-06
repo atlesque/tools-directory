@@ -863,6 +863,25 @@ svg {
   text-align: center;
 }
 
+.elsewhere {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 0.88rem;
+}
+
+.elsewhere-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
 /* List view: cards become table rows */
 
 [data-view='list'] .cards {
