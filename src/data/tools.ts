@@ -11,6 +11,14 @@ export type Tool = {
 
 export const tools: Tool[] = [
   {
+    name: 'BillSplit',
+    description: 'Split group expenses with friends, see balances, and settle up. Sign in with an email code.',
+    githubUrl: 'https://github.com/atlesque/billsplit',
+    websiteUrl: 'https://billsplit.atlesque.dev/',
+    category: 'Productivity',
+    tags: ['expenses', 'split', 'tricount', 'friends', 'balances', 'cloudflare'],
+  },
+  {
     name: 'Miri',
     added: '2026-10-06',
     description: 'Cat soundboard with sound pages, playback controls, and adjustable volume.',
