@@ -68,11 +68,29 @@ type AccessApp = {
   self_hosted_domains?: string[];
   destinations?: { type?: string; uri?: string; worker_id?: string }[];
 };
-type BuildTrigger = {
-  repo_connection?: { repo_name?: string; provider_account_name?: string };
-  repo_name?: string;
-  provider_account_name?: string;
+type Build = {
+  external_script_id?: string;
+  build_trigger_metadata?: { repo_name?: string; provider_account_name?: string };
+  trigger?: { external_script_id?: string; repo_connection?: { repo_name?: string; provider_account_name?: string } };
 };
+
+/**
+ * Normalises the latest-builds response, which is keyed by script tag
+ * (optionally under `builds`) or returned as a list, into tag → repo.
+ */
+export function latestBuilds(result: unknown): { tag: string; owner: string; repo: string }[] {
+  const container = (result as { builds?: unknown } | null)?.builds ?? result;
+  const entries: [string | undefined, Build][] = Array.isArray(container)
+    ? (container as Build[]).map((build) => [undefined, build])
+    : Object.entries((container ?? {}) as Record<string, Build>);
+  return entries.flatMap(([key, build]) => {
+    const tag = build?.external_script_id ?? build?.trigger?.external_script_id ?? key;
+    const meta = build?.build_trigger_metadata;
+    const owner = meta?.provider_account_name ?? build?.trigger?.repo_connection?.provider_account_name;
+    const repo = meta?.repo_name ?? build?.trigger?.repo_connection?.repo_name;
+    return tag && owner && repo ? [{ tag, owner, repo }] : [];
+  });
+}
 
 const PROTECTING_APP_TYPES = new Set(['self_hosted', 'ssh', 'vnc', 'rdp']);
 
@@ -149,21 +167,27 @@ export async function loadInventory(ctx: Ctx, account: string, knownHosts: Set<s
   }
 
   // Workers Builds knows which repo deploys each Worker, which catches Workers
-  // whose name differs from their repo (e.g. "expedition33"). One request per
-  // Worker, so only for Workers serving a hostname the directory lacks.
-  for (const script of scripts) {
+  // whose name differs from their repo (e.g. "expedition33"). The latest-builds
+  // endpoint covers every Worker in one request.
+  const pending = scripts.filter((script) => {
     const hosts = workerHosts.get(script.id);
-    if (!hosts?.size || [...hosts].every((host) => knownHosts.has(host))) continue;
-    const triggers = await attempt(
-      `build triggers for ${script.id}`,
-      () => cf<BuildTrigger[]>(ctx, `/accounts/${account}/builds/workers/${script.tag}/triggers`).then((r) => r.result ?? []),
+    return hosts?.size && ![...hosts].every((host) => knownHosts.has(host));
+  });
+  if (pending.length) {
+    const builds = await attempt(
+      'latest Workers Builds',
+      () =>
+        cf<unknown>(ctx, `/accounts/${account}/builds/builds/latest?external_script_ids=${pending.map((s) => s.tag).join(',')}`).then((r) =>
+          latestBuilds(r.result),
+        ),
       [],
     );
-    for (const trigger of triggers) {
-      const owner = trigger.repo_connection?.provider_account_name ?? trigger.provider_account_name;
-      const repo = trigger.repo_connection?.repo_name ?? trigger.repo_name;
-      if (!owner || !repo) continue;
-      for (const hostname of hosts) add(byRepo, `${owner}/${repo}`.toLowerCase(), { hostname, via: `worker:${script.id}`, worker: script.id });
+    const byTag = new Map(pending.map((s) => [s.tag, s.id]));
+    for (const build of builds) {
+      const script = byTag.get(build.tag);
+      const hosts = script && workerHosts.get(script);
+      if (!script || !hosts) continue;
+      for (const hostname of hosts) add(byRepo, `${build.owner}/${build.repo}`.toLowerCase(), { hostname, via: `worker:${script}`, worker: script });
     }
   }
 

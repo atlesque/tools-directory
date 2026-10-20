@@ -7,6 +7,12 @@ import type { Env, SyncReport, ToolRow } from './types.ts';
 
 const message = (error: unknown) => (error instanceof Error ? error.message : String(error));
 
+export const rotate = <T>(items: T[], by: number): T[] => {
+  if (!items.length) return items;
+  const start = ((by % items.length) + items.length) % items.length;
+  return [...items.slice(start), ...items.slice(0, start)];
+};
+
 /** Candidate hostnames for a repo, most explicit first. */
 function sitesFor(repo: Repo, inventory: Inventory): Site[] {
   const sites: Site[] = [];
@@ -62,13 +68,18 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', dryRun: bool
       report.warnings.push(...inventory.warnings);
       const today = localParts(startedAt, env.LOCAL_TIMEZONE).date;
 
-      for (const [index, repo] of candidates.entries()) {
+      // Repos without a site cost no requests. The rest are checked starting at
+      // an offset that moves daily, so a budget-limited run still reaches every
+      // repo over a few nights instead of retrying the same ones.
+      const withSites = candidates.flatMap((repo) => {
+        const sites = sitesFor(repo, inventory);
+        if (!sites.length) report.skipped.push({ repo: repo.full_name, reason: 'no deployment on a custom domain' });
+        return sites.length ? [{ repo, sites }] : [];
+      });
+      const queue = rotate(withSites, Math.floor(startedAt.getTime() / 86_400_000));
+
+      for (const [index, { repo, sites }] of queue.entries()) {
         try {
-          const sites = sitesFor(repo, inventory);
-          if (!sites.length) {
-            report.skipped.push({ repo: repo.full_name, reason: 'no deployment on a custom domain' });
-            continue;
-          }
           const already = sites.find((site) => listedHosts.has(site.hostname));
           if (already) {
             report.skipped.push({ repo: repo.full_name, reason: `${already.hostname} is already listed under another repo` });
@@ -117,7 +128,7 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', dryRun: bool
           report.added.push({ repo: repo.full_name, name: listing.name, websiteUrl: chosen.url, category: listing.category, via: chosen.site.via });
         } catch (error) {
           if (error instanceof BudgetExceeded) {
-            for (const rest of candidates.slice(index)) report.skipped.push({ repo: rest.full_name, reason: 'deferred to the next run (subrequest budget)' });
+            for (const { repo: rest } of queue.slice(index)) report.skipped.push({ repo: rest.full_name, reason: 'deferred to the next run (subrequest budget)' });
             break;
           }
           report.errors.push(`${repo.full_name}: ${message(error)}`);

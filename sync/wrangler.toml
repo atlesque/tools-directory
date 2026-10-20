@@ -24,8 +24,9 @@ GITHUB_AFFILIATION = "owner,organization_member"
 AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 LOCAL_TIMEZONE = "Europe/Amsterdam"
 LOCAL_HOUR = "3"
-# Outbound requests per run. 45 fits the Free plan limit of 50; raise it on Workers Paid.
-MAX_SUBREQUESTS = "45"
+# Outbound requests per run. The account is on Workers Paid (1000 per invocation);
+# use 45 on the Free plan, which allows 50.
+MAX_SUBREQUESTS = "900"
 
 # Secrets (wrangler secret put <NAME>):
 #   GITHUB_TOKEN          fine-grained PAT, all repositories, Metadata + Contents read

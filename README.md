@@ -59,8 +59,8 @@ npx wrangler deploy
   Account › Access: Apps and Policies: Read, Account › Workers Builds Configuration: Read, and for all zones
   Zone › Zone: Read and Zone › Workers Routes: Read.
 - `PAGES_DEPLOY_HOOK`: Pages project › Settings › Builds › Deploy hooks, for the production branch.
-- `MAX_SUBREQUESTS` (var): outbound requests per run. 45 fits the Free plan limit of 50; repos that do not fit
-  are picked up the next night. Raise it on Workers Paid.
+- `MAX_SUBREQUESTS` (var): outbound requests per run, 900 for Workers Paid (use 45 on the Free plan). Repos that do
+  not fit are picked up on later nights, starting from a different repo each day.
 
 ### Manual runs
 
