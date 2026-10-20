@@ -41,6 +41,8 @@ Each night at 03:00 Europe/Amsterdam the Worker:
 Cron Triggers run in UTC, so `wrangler.toml` schedules 01:00 and 02:00 UTC and the handler only continues on
 the one that is 03:00 in Amsterdam (CEST in summer, CET in winter).
 
+`GET /api/tools` only serves tools with a website; older entries without one stay in the database.
+
 To remove a tool for good, set `hidden = 1` instead of deleting the row, otherwise the next sync adds it again.
 
 ### Setup

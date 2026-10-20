@@ -15,9 +15,12 @@ function authorized(request: Request, env: Env): boolean {
   return given.byteLength === expected.byteLength && crypto.subtle.timingSafeEqual(given, expected);
 }
 
-/** Visible tools in insertion order. Private repos are served without their GitHub URL. */
+/**
+ * Visible tools in insertion order. Tools without a public website stay in the
+ * database but are not served. Private repos are served without their GitHub URL.
+ */
 async function listTools(env: Env): Promise<ApiTool[]> {
-  const { results } = await env.DB.prepare('SELECT * FROM tools WHERE hidden = 0 ORDER BY id').all<ToolRow>();
+  const { results } = await env.DB.prepare("SELECT * FROM tools WHERE hidden = 0 AND coalesce(website_url, '') != '' ORDER BY id").all<ToolRow>();
   return results.map((row) => ({
     name: row.name,
     description: row.description,

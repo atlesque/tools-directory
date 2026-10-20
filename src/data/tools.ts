@@ -25,7 +25,7 @@ async function loadTools(): Promise<Tool[]> {
   if (!url) {
     if (import.meta.env.DEV || (CF_PAGES_BRANCH && CF_PAGES_BRANCH !== 'main')) {
       console.warn('TOOLS_API_URL is not set; using src/data/tools.fixture.json');
-      return fixture as Tool[];
+      return (fixture as Tool[]).filter((tool) => tool.websiteUrl);
     }
     throw new Error('TOOLS_API_URL is not set. Point it at the sync Worker, e.g. https://tools-directory-sync.alexander-df0.workers.dev/api/tools');
   }
