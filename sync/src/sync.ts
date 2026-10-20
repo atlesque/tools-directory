@@ -2,7 +2,7 @@ import { describe } from './ai.ts';
 import { accountId, loadInventory, probe, type Inventory, type Site } from './cloudflare.ts';
 import { BudgetExceeded, createCtx } from './context.ts';
 import { listRepos, readme, type Repo } from './github.ts';
-import { hostOf, isCustomHost, localParts, nameKey, repoKey } from './match.ts';
+import { csv, hostOf, isCustomHost, localParts, nameKey, onToolDomain, repoKey } from './match.ts';
 import type { Env, SyncReport, ToolRow } from './types.ts';
 
 const message = (error: unknown) => (error instanceof Error ? error.message : String(error));
@@ -12,6 +12,31 @@ export const rotate = <T>(items: T[], by: number): T[] => {
   const start = ((by % items.length) + items.length) % items.length;
   return [...items.slice(start), ...items.slice(0, start)];
 };
+
+export type Filter = { domains: string[]; ignoreHosts: string[]; optIn: string; optOut: string };
+
+export const filterFrom = (env: Env): Filter => ({
+  domains: csv(env.TOOL_DOMAINS),
+  ignoreHosts: csv(env.IGNORE_HOSTS),
+  optIn: env.OPT_IN_TOPIC?.trim().toLowerCase() || 'directory',
+  optOut: env.OPT_OUT_TOPIC?.trim().toLowerCase() || 'no-directory',
+});
+
+/**
+ * Which of a repo's sites may be listed. Tools live on subdomains of
+ * TOOL_DOMAINS; other domains are usually client or personal websites, so they
+ * need the opt-in topic. The opt-out topic removes a repo entirely.
+ */
+export function eligible(repo: Pick<Repo, 'topics'>, sites: Site[], filter: Filter): { sites: Site[]; reason?: string } {
+  const topics = (repo.topics ?? []).map((topic) => topic.toLowerCase());
+  if (topics.includes(filter.optOut)) return { sites: [], reason: `has the ${filter.optOut} topic` };
+  const usable = sites.filter((site) => !filter.ignoreHosts.includes(site.hostname));
+  if (topics.includes(filter.optIn) || !filter.domains.length) return { sites: usable };
+  const onDomain = usable.filter((site) => onToolDomain(site.hostname, filter.domains));
+  if (onDomain.length) return { sites: onDomain };
+  const hosts = usable.map((site) => site.hostname).join(', ');
+  return { sites: [], reason: `${hosts || 'site'} is not on ${filter.domains.join(' or ')} (add the ${filter.optIn} topic to list it)` };
+}
 
 /** Candidate hostnames for a repo, most explicit first. */
 function sitesFor(repo: Repo, inventory: Inventory): Site[] {
@@ -71,9 +96,15 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', dryRun: bool
       // Repos without a site cost no requests. The rest are checked starting at
       // an offset that moves daily, so a budget-limited run still reaches every
       // repo over a few nights instead of retrying the same ones.
+      const filter = filterFrom(env);
       const withSites = candidates.flatMap((repo) => {
-        const sites = sitesFor(repo, inventory);
-        if (!sites.length) report.skipped.push({ repo: repo.full_name, reason: 'no deployment on a custom domain' });
+        const found = sitesFor(repo, inventory);
+        if (!found.length) {
+          report.skipped.push({ repo: repo.full_name, reason: 'no deployment on a custom domain' });
+          return [];
+        }
+        const { sites, reason } = eligible(repo, found, filter);
+        if (reason) report.skipped.push({ repo: repo.full_name, reason });
         return sites.length ? [{ repo, sites }] : [];
       });
       const queue = rotate(withSites, Math.floor(startedAt.getTime() / 86_400_000));

@@ -27,6 +27,13 @@ LOCAL_HOUR = "3"
 # Outbound requests per run. The account is on Workers Paid (1000 per invocation);
 # use 45 on the Free plan, which allows 50.
 MAX_SUBREQUESTS = "900"
+# Only sites on subdomains of these domains are added automatically. A repo with
+# the OPT_IN_TOPIC is added from any domain; one with OPT_OUT_TOPIC never is.
+TOOL_DOMAINS = "atlesque.dev"
+OPT_IN_TOPIC = "directory"
+OPT_OUT_TOPIC = "no-directory"
+# Hostnames that are never a tool's site (the directory itself, shared auth).
+IGNORE_HOSTS = "tools.atlesque.dev,accounts.atlesque.dev"
 
 # Secrets (wrangler secret put <NAME>):
 #   GITHUB_TOKEN          fine-grained PAT, all repositories, Metadata + Contents read

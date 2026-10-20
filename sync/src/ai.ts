@@ -25,7 +25,7 @@ const SCHEMA = {
 
 const SYSTEM = `You write entries for a directory of small web tools built by one developer.
 Return JSON with:
-- name: the tool's display name in Title Case, at most 40 characters. Prefer the name the site or README uses; otherwise prettify the repo name.
+- name: the tool's display name in Title Case, at most 40 characters. Prefer the name the site or README uses; otherwise prettify the repo name. Drop owner or project prefixes from the repo name (such as "mbp-") and write acronyms in capitals (JWT, PDF, QR).
 - description: one plain sentence, at most 140 characters, saying what the tool does. Start with a noun phrase, no marketing words, no "This tool".
 - category: exactly one of ${CATEGORIES.join(', ')}.
 - tags: 3 to 7 lowercase search keywords.

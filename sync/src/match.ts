@@ -70,3 +70,13 @@ export function localParts(date: Date, timeZone: string): { date: string; hour: 
   );
   return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour) };
 }
+
+/** Comma-separated config value as a lowercased list. */
+export const csv = (value: string | undefined) =>
+  (value ?? '')
+    .split(',')
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean);
+
+/** True when `hostname` is a subdomain of one of `domains`. The apex itself is usually a personal site, so it does not count. */
+export const onToolDomain = (hostname: string, domains: string[]) => domains.some((domain) => hostname.toLowerCase().endsWith(`.${domain}`));

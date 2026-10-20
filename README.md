@@ -29,11 +29,14 @@ Each night at 03:00 Europe/Amsterdam the Worker:
 1. Lists every repository the GitHub token can see (public and private, skipping forks and archived repos).
 2. Takes the ones not yet in the directory and looks for a deployment on a custom domain: the repo's GitHub
    homepage, a Pages project or Workers Build linked to the repo, or a Pages project / Worker with the same name.
-3. Drops sites behind Cloudflare Access (checked against Access applications and by loading the front page
+3. Keeps only sites on a subdomain of `TOOL_DOMAINS` (`*.atlesque.dev`), since sites on other domains are
+   usually client or personal websites. A repo with the `directory` topic is added from any domain, and one with
+   the `no-directory` topic is never added. `IGNORE_HOSTS` lists hostnames that are never a tool's site.
+4. Drops sites behind Cloudflare Access (checked against Access applications and by loading the front page
    anonymously) and sites that do not respond.
-4. Asks Workers AI for a name, description, category and tags, and inserts the tool.
-5. Updates `repo_private` for existing tools; private repos are listed without a GitHub link.
-6. Calls the Pages deploy hook, so the static site picks up the changes.
+5. Asks Workers AI for a name, description, category and tags, and inserts the tool.
+6. Updates `repo_private` for existing tools; private repos are listed without a GitHub link.
+7. Calls the Pages deploy hook, so the static site picks up the changes.
 
 Cron Triggers run in UTC, so `wrangler.toml` schedules 01:00 and 02:00 UTC and the handler only continues on
 the one that is 03:00 in Amsterdam (CEST in summer, CET in winter).

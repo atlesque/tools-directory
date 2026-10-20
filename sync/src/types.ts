@@ -14,6 +14,10 @@ export interface Env {
   LOCAL_TIMEZONE: string;
   LOCAL_HOUR: string;
   MAX_SUBREQUESTS?: string;
+  TOOL_DOMAINS?: string;
+  IGNORE_HOSTS?: string;
+  OPT_IN_TOPIC?: string;
+  OPT_OUT_TOPIC?: string;
 }
 
 /** Shape served by GET /api/tools and read by the Astro build. */
