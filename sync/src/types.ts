@@ -9,6 +9,12 @@ export interface Env {
   CLOUDFLARE_ACCOUNT_ID?: string;
   PAGES_DEPLOY_HOOK?: string;
   SYNC_TOKEN?: string;
+  /** Cloudflare Access team domain, e.g. https://atlesque.cloudflareaccess.com */
+  ACCESS_TEAM_DOMAIN?: string;
+  /** Application Audience (AUD) tag of the Access application in front of the admin. */
+  ACCESS_AUD?: string;
+  /** Comma-separated emails allowed into the admin, checked on top of the Access policy. */
+  ADMIN_EMAILS?: string;
   GITHUB_AFFILIATION: string;
   AI_MODEL: string;
   LOCAL_TIMEZONE: string;
@@ -26,7 +32,8 @@ export type ApiTool = {
   description: string;
   githubUrl: string;
   websiteUrl?: string;
-  category: Category;
+  /** One of CATEGORIES, or a category the admin typed in. */
+  category: string;
   tags: string[];
   added: string;
   repoPrivate: boolean;
@@ -38,11 +45,18 @@ export type ToolRow = {
   description: string;
   github_url: string;
   website_url: string | null;
-  category: Category;
+  category: string;
   tags: string;
   added: string;
   repo_private: number;
+  /** 1 = private: hidden from the public site, shown only in the admin. */
   hidden: number;
+  source: 'seed' | 'sync' | 'manual';
+  /** JSON array of columns the admin edited; the sync never writes these. */
+  manual_fields: string;
+  origin_github_url: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 export type SyncReport = {
