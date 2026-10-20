@@ -3,6 +3,10 @@ main = "src/index.ts"
 compatibility_date = "2026-10-01"
 workers_dev = true
 
+# The admin UI (/admin) lives on its own hostname so a Cloudflare Access
+# application can protect the whole host. /api/tools stays public on workers.dev.
+routes = [{ pattern = "tools-admin.atlesque.dev", custom_domain = true }]
+
 # Cron Triggers run in UTC. 03:00 in Amsterdam is 01:00 UTC in summer (CEST) and
 # 02:00 UTC in winter (CET), so both fire and the handler only continues on the
 # one that lands on 03:00 local time.
@@ -32,14 +36,20 @@ MAX_SUBREQUESTS = "900"
 TOOL_DOMAINS = "atlesque.dev"
 OPT_IN_TOPIC = "directory"
 OPT_OUT_TOPIC = "no-directory"
-# Hostnames that are never a tool's site (the directory itself, shared auth).
-IGNORE_HOSTS = "tools.atlesque.dev,accounts.atlesque.dev"
+# Hostnames that are never a tool's site (the directory, its admin, shared auth).
+IGNORE_HOSTS = "tools.atlesque.dev,tools-admin.atlesque.dev,accounts.atlesque.dev"
+# Admin (src/admin.ts): every /admin request needs a Cloudflare Access token for
+# one of these emails, on top of the Access policy itself.
+ADMIN_EMAILS = "alexander@atlesque.media"
 
 # Secrets (wrangler secret put <NAME>):
 #   GITHUB_TOKEN          fine-grained PAT, all repositories, Metadata + Contents read
 #   CLOUDFLARE_API_TOKEN  user API token, see README
 #   PAGES_DEPLOY_HOOK     deploy hook URL of the tools-directory Pages project
 #   SYNC_TOKEN            optional, enables POST /api/sync for manual runs
+#   ACCESS_TEAM_DOMAIN    Zero Trust team domain, e.g. https://<team>.cloudflareaccess.com
+#   ACCESS_AUD            Application Audience (AUD) tag of the tools-admin Access app
+#                         (the admin answers 503 until both are set)
 # Optional: CLOUDFLARE_ACCOUNT_ID (otherwise the token's first account is used).
 
 [observability]

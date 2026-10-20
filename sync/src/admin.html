@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tools admin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #e9eaf0;
+    --panel: rgba(255, 255, 255, 0.82);
+    --panel-soft: rgba(255, 255, 255, 0.5);
+    --line: rgba(30, 34, 50, 0.12);
+    --ink: #15171d;
+    --muted: #5d6170;
+    --faint: #8a8e9c;
+    --accent: #7c4ddb;
+    --accent-soft: rgba(124, 77, 219, 0.14);
+    --accent-ink: #5b2fc0;
+    --warm: #c2410c;
+    --warm-soft: rgba(226, 88, 28, 0.14);
+    --ok: #0f766e;
+    --ok-soft: rgba(20, 184, 166, 0.16);
+    --shadow: 0 24px 60px -24px rgba(30, 30, 60, 0.28), 0 2px 6px rgba(30, 30, 60, 0.06);
+    font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #0b0c10;
+      --panel: rgba(36, 37, 44, 0.85);
+      --panel-soft: rgba(255, 255, 255, 0.05);
+      --line: rgba(255, 255, 255, 0.1);
+      --ink: #f1f1f4;
+      --muted: #a3a5b0;
+      --faint: #6f727e;
+      --accent: #a78bfa;
+      --accent-soft: rgba(139, 92, 246, 0.3);
+      --accent-ink: #d5c8ff;
+      --warm: #ff8a5c;
+      --warm-soft: rgba(255, 116, 72, 0.16);
+      --ok: #5eead4;
+      --ok-soft: rgba(45, 212, 191, 0.14);
+      --shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-size: 15px; line-height: 1.45; }
+  main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: space-between; margin-bottom: 20px; }
+  h1 { font-size: 26px; font-weight: 650; margin: 0; letter-spacing: -0.01em; }
+  h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button {
+    font: inherit; font-size: 14px; font-weight: 550; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--ink); padding: 7px 14px; cursor: pointer;
+  }
+  .button { text-decoration: none; display: inline-block; }
+  button:hover, .button:hover { border-color: var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: 0.55; cursor: default; }
+  button.small { font-size: 13px; padding: 4px 11px; }
+  .banner {
+    display: none; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap;
+    background: var(--accent-soft); color: var(--accent-ink); border-radius: 14px; padding: 10px 14px; margin-bottom: 16px;
+  }
+  .banner.show { display: flex; }
+  .banner.error { background: var(--warm-soft); color: var(--warm); }
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .toolbar input { flex: 1 1 220px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--panel); }
+  .seg button { border: 0; border-radius: 0; background: transparent; }
+  .seg button[aria-pressed='true'] { background: var(--accent-soft); color: var(--accent-ink); }
+  input, textarea, select {
+    font: inherit; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; width: 100%;
+  }
+  input:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .count { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
+  ul.tools { list-style: none; margin: 0; padding: 0; background: var(--panel); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+  ul.tools li { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; padding: 12px 16px; border-top: 1px solid var(--line); }
+  ul.tools li:first-child { border-top: 0; }
+  ul.tools li.is-private .name { color: var(--muted); }
+  .name { font-weight: 600; }
+  .name a { color: inherit; }
+  .desc { color: var(--muted); font-size: 14px; grid-column: 1; }
+  .meta { grid-column: 1; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--faint); }
+  .meta a { color: var(--accent-ink); }
+  .row-actions { grid-column: 2; grid-row: 1 / span 3; display: flex; gap: 6px; align-items: start; }
+  .badge { border-radius: 999px; padding: 1px 8px; font-size: 12px; font-weight: 550; background: var(--panel-soft); border: 1px solid var(--line); color: var(--muted); }
+  .badge.private { background: var(--warm-soft); color: var(--warm); border-color: transparent; }
+  .badge.public { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+  .badge.edited { background: var(--accent-soft); color: var(--accent-ink); border-color: transparent; }
+  .empty { padding: 32px 16px; text-align: center; color: var(--muted); }
+  dialog { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); background: var(--bg); color: var(--ink); box-shadow: var(--shadow); }
+  dialog::backdrop { background: rgba(10, 10, 20, 0.45); }
+  form { padding: 20px; display: grid; gap: 12px; }
+  form h2 { margin: 0; font-size: 19px; }
+  label { display: grid; gap: 4px; font-size: 13px; font-weight: 550; color: var(--muted); }
+  label.check { display: flex; gap: 8px; align-items: start; font-weight: 400; color: var(--ink); font-size: 14px; }
+  label.check input { width: auto; margin-top: 3px; }
+  label.check span small { display: block; color: var(--muted); font-size: 12px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-error { color: var(--warm); font-size: 14px; min-height: 1em; margin: 0; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+  .hint { font-weight: 400; color: var(--faint); }
+  @media (max-width: 600px) {
+    .two { grid-template-columns: 1fr; }
+    ul.tools li { grid-template-columns: 1fr; }
+    .row-actions { grid-column: 1; grid-row: auto; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Tools admin <small id="who">Loading…</small></h1>
+    <div class="actions">
+      <a class="button" href="https://tools.atlesque.dev/" target="_blank" rel="noopener">Open site</a>
+      <button type="button" id="publish">Publish site now</button>
+      <button type="button" class="primary" id="add">Add tool</button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" role="status">
+    <span id="banner-text"></span>
+    <button type="button" class="small" id="banner-publish">Publish now</button>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="search" placeholder="Search name, description, category or tag" aria-label="Search tools">
+    <div class="seg" role="group" aria-label="Show">
+      <button type="button" data-view="all" aria-pressed="true">All</button>
+      <button type="button" data-view="public" aria-pressed="false">Public</button>
+      <button type="button" data-view="private" aria-pressed="false">Private</button>
+      <button type="button" data-view="nosite" aria-pressed="false">No website</button>
+    </div>
+  </div>
+  <p class="count" id="count"></p>
+  <ul class="tools" id="list"><li class="empty">Loading tools…</li></ul>
+</main>
+
+<dialog id="dialog">
+  <form id="form" method="dialog" novalidate>
+    <h2 id="form-title">Add tool</h2>
+    <label>Name <input name="name" maxlength="60" required></label>
+    <label>Description <textarea name="description" rows="3" maxlength="300" required></textarea></label>
+    <div class="two">
+      <label>Category <input name="category" list="categories" maxlength="40" required placeholder="Pick or type a new one"></label>
+      <label>Date added <input name="added" type="date"></label>
+    </div>
+    <datalist id="categories"></datalist>
+    <label>Website <input name="websiteUrl" type="url" placeholder="https://tool.atlesque.dev/"></label>
+    <label>GitHub repository <input name="githubUrl" type="url" placeholder="https://github.com/atlesque/tool"></label>
+    <label>Tags <span class="hint">comma separated</span><input name="tags" placeholder="pdf, merge, offline"></label>
+    <label class="check"><input type="checkbox" name="private">
+      <span>Private<small>Hidden from the public site; only visible here.</small></span></label>
+    <label class="check"><input type="checkbox" name="repoPrivate">
+      <span>Hide GitHub link<small>Set automatically for private repositories.</small></span></label>
+    <p class="form-error" id="form-error" role="alert"></p>
+    <div class="form-actions">
+      <button type="button" id="cancel">Cancel</button>
+      <button type="submit" class="primary" id="save">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  const state = { tools: [], categories: [], view: 'all', query: '', editing: null, canPublish: false };
+  const $ = (id) => document.getElementById(id);
+  const FIELD_LABELS = { name: 'name', description: 'description', category: 'category', tags: 'tags', githubUrl: 'GitHub URL', websiteUrl: 'website', added: 'date', private: 'visibility', repoPrivate: 'GitHub link' };
+
+  async function api(path, options = {}) {
+    const res = await fetch(path, {
+      ...options,
+      credentials: 'same-origin',
+      headers: options.body ? { 'Content-Type': 'application/json' } : {},
+      body: options.body ? JSON.stringify(options.body) : undefined,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+    return data;
+  }
+
+  function showBanner(text, isError = false) {
+    $('banner-text').textContent = text;
+    $('banner').classList.toggle('error', isError);
+    $('banner-publish').hidden = isError || !state.canPublish;
+    $('banner').classList.add('show');
+  }
+
+  function markDirty() {
+    showBanner(state.canPublish
+      ? 'Saved. The public site picks this up on the next rebuild (tonight at 03:00), or publish now.'
+      : 'Saved. The public site picks this up on the next rebuild, tonight at 03:00.');
+  }
+
+  const el = (tag, props = {}, ...children) => {
+    const node = Object.assign(document.createElement(tag), props);
+    node.append(...children.filter(Boolean));
+    return node;
+  };
+
+  function matches(tool) {
+    if (state.view === 'public' && (tool.private || !tool.websiteUrl)) return false;
+    if (state.view === 'private' && !tool.private) return false;
+    if (state.view === 'nosite' && tool.websiteUrl) return false;
+    if (!state.query) return true;
+    const haystack = `${tool.name} ${tool.description} ${tool.category} ${tool.tags.join(' ')}`.toLowerCase();
+    return state.query.split(/\s+/).every((word) => haystack.includes(word));
+  }
+
+  function render() {
+    const list = $('list');
+    const shown = state.tools.filter(matches);
+    const publicCount = state.tools.filter((t) => !t.private && t.websiteUrl).length;
+    $('count').textContent = `${shown.length} shown · ${publicCount} on the public site · ${state.tools.filter((t) => t.private).length} private`;
+    list.replaceChildren();
+    if (!shown.length) {
+      list.append(el('li', { className: 'empty', textContent: 'No tools match.' }));
+      return;
+    }
+    for (const tool of shown) {
+      const title = tool.websiteUrl ? el('a', { href: tool.websiteUrl, target: '_blank', rel: 'noopener', textContent: tool.name }) : tool.name;
+      const edited = tool.manualFields.filter((f) => f !== 'private').map((f) => FIELD_LABELS[f] || f);
+      const toggle = el('button', { type: 'button', className: 'small', textContent: tool.private ? 'Make public' : 'Make private' });
+      toggle.addEventListener('click', () => save(tool.id, { private: !tool.private }, toggle));
+      const edit = el('button', { type: 'button', className: 'small', textContent: 'Edit' });
+      edit.addEventListener('click', () => openForm(tool));
+      list.append(el('li', { className: tool.private ? 'is-private' : '' },
+        el('div', { className: 'name' }, title),
+        el('div', { className: 'row-actions' }, toggle, edit),
+        el('div', { className: 'desc', textContent: tool.description }),
+        el('div', { className: 'meta' },
+          tool.private
+            ? el('span', { className: 'badge private', textContent: 'Private' })
+            : tool.websiteUrl
+              ? el('span', { className: 'badge public', textContent: 'Public' })
+              : el('span', { className: 'badge', textContent: 'No website, not listed', title: 'Only tools with a website appear on the public site' }),
+          el('span', { className: 'badge', textContent: tool.category }),
+          tool.repoPrivate && el('span', { className: 'badge', textContent: 'GitHub link hidden' }),
+          edited.length && el('span', { className: 'badge edited', textContent: `Edited: ${edited.join(', ')}`, title: 'The nightly sync never overwrites these fields' }),
+          el('span', { textContent: `Added ${tool.added} · ${tool.source === 'sync' ? 'found by sync' : tool.source === 'seed' ? 'original list' : 'added by hand'}` }),
+          tool.githubUrl && el('a', { href: tool.githubUrl, target: '_blank', rel: 'noopener', textContent: tool.githubUrl.replace('https://github.com/', '') }),
+        ),
+      ));
+    }
+  }
+
+  async function load() {
+    const [me, data] = await Promise.all([api('/admin/api/me'), api('/admin/api/tools')]);
+    state.canPublish = me.canPublish;
+    $('who').textContent = `Signed in as ${me.email}`;
+    $('publish').hidden = !me.canPublish;
+    state.tools = data.tools;
+    state.categories = data.categories;
+    $('categories').replaceChildren(...data.categories.map((c) => el('option', { value: c })));
+    render();
+  }
+
+  function replaceTool(tool) {
+    const index = state.tools.findIndex((t) => t.id === tool.id);
+    if (index === -1) state.tools.unshift(tool);
+    else state.tools[index] = tool;
+    if (!state.categories.includes(tool.category)) {
+      state.categories.push(tool.category);
+      $('categories').append(el('option', { value: tool.category }));
+    }
+  }
+
+  async function save(id, changes, button) {
+    if (button) button.disabled = true;
+    try {
+      replaceTool(await api(`/admin/api/tools/${id}`, { method: 'PATCH', body: changes }));
+      render();
+      markDirty();
+    } catch (error) {
+      showBanner(error.message, true);
+    } finally {
+      if (button) button.disabled = false;
+    }
+  }
+
+  function openForm(tool) {
+    state.editing = tool;
+    const form = $('form');
+    form.reset();
+    $('form-error').textContent = '';
+    $('form-title').textContent = tool ? `Edit ${tool.name}` : 'Add tool';
+    const values = tool ?? { name: '', description: '', category: '', websiteUrl: '', githubUrl: '', tags: [], added: new Date().toISOString().slice(0, 10), private: false, repoPrivate: false };
+    for (const key of ['name', 'description', 'category', 'websiteUrl', 'githubUrl', 'added']) form.elements[key].value = values[key] ?? '';
+    form.elements.tags.value = values.tags.join(', ');
+    form.elements.private.checked = values.private;
+    form.elements.repoPrivate.checked = values.repoPrivate;
+    $('dialog').showModal();
+    form.elements.name.focus();
+  }
+
+  function formValues() {
+    const f = $('form').elements;
+    return {
+      name: f.name.value,
+      description: f.description.value,
+      category: f.category.value,
+      websiteUrl: f.websiteUrl.value,
+      githubUrl: f.githubUrl.value,
+      tags: f.tags.value.split(','),
+      added: f.added.value,
+      private: f.private.checked,
+      repoPrivate: f.repoPrivate.checked,
+    };
+  }
+
+  $('form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const values = formValues();
+    const tool = state.editing;
+    // Send only what changed, so untouched fields stay under the sync's control.
+    const body = tool
+      ? Object.fromEntries(Object.entries(values).filter(([key, value]) => JSON.stringify(normalise(key, value)) !== JSON.stringify(normalise(key, tool[key]))))
+      : values;
+    if (tool && !Object.keys(body).length) return $('dialog').close();
+    $('save').disabled = true;
+    try {
+      replaceTool(await api(tool ? `/admin/api/tools/${tool.id}` : '/admin/api/tools', { method: tool ? 'PATCH' : 'POST', body }));
+      $('dialog').close();
+      render();
+      markDirty();
+    } catch (error) {
+      $('form-error').textContent = error.message;
+    } finally {
+      $('save').disabled = false;
+    }
+  });
+
+  const normalise = (key, value) =>
+    key === 'tags'
+      ? value.map((t) => t.trim().toLowerCase()).filter(Boolean)
+      : typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : value;
+
+  $('cancel').addEventListener('click', () => $('dialog').close());
+  $('add').addEventListener('click', () => openForm(null));
+  $('search').addEventListener('input', (event) => {
+    state.query = event.target.value.trim().toLowerCase();
+    render();
+  });
+  for (const button of document.querySelectorAll('[data-view]')) {
+    button.addEventListener('click', () => {
+      state.view = button.dataset.view;
+      for (const b of document.querySelectorAll('[data-view]')) b.setAttribute('aria-pressed', String(b === button));
+      render();
+    });
+  }
+
+  async function publish(button) {
+    button.disabled = true;
+    try {
+      await api('/admin/api/publish', { method: 'POST', body: {} });
+      showBanner('Rebuild started. The public site updates in a minute or two.');
+      $('banner-publish').hidden = true;
+    } catch (error) {
+      showBanner(error.message, true);
+    } finally {
+      button.disabled = false;
+    }
+  }
+  $('publish').addEventListener('click', (event) => publish(event.currentTarget));
+  $('banner-publish').addEventListener('click', (event) => publish(event.currentTarget));
+
+  load().catch((error) => {
+    $('who').textContent = '';
+    $('list').replaceChildren(el('li', { className: 'empty', textContent: error.message }));
+  });
+</script>
+</body>
+</html>

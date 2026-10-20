@@ -2,6 +2,7 @@ import { describe } from './ai.ts';
 import { accountId, loadInventory, probe, type Inventory, type Site } from './cloudflare.ts';
 import { BudgetExceeded, createCtx } from './context.ts';
 import { listRepos, readme, type Repo } from './github.ts';
+import { syncMayWrite } from './edits.ts';
 import { csv, hostOf, isCustomHost, localParts, nameKey, onToolDomain, repoKey } from './match.ts';
 import type { Env, SyncReport, ToolRow } from './types.ts';
 
@@ -67,17 +68,27 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', dryRun: bool
 
   try {
     const { results: rows } = await env.DB.prepare('SELECT * FROM tools').all<ToolRow>();
-    const listedRepos = new Set(rows.map((row) => repoKey(row.github_url)).filter((key): key is string => key !== null));
+    // A repo counts as listed under its current URL and the one it was added with,
+    // so pointing a tool at another repo in the admin does not bring the old one back.
+    const listedRepos = new Set(
+      rows.flatMap((row) => [repoKey(row.github_url), repoKey(row.origin_github_url ?? '')]).filter((key): key is string => key !== null),
+    );
     const listedHosts = new Set(rows.map((row) => hostOf(row.website_url)).filter((host): host is string => host !== null));
 
     const repos = await listRepos(ctx);
     const repoByKey = new Map(repos.map((repo) => [repo.full_name.toLowerCase(), repo]));
 
     // Keep the private flag current, so a repo made private loses its public GitHub link.
+    // This is the only column the sync writes on existing rows, and only while the
+    // admin has not set it by hand (manual_fields).
     const updates: D1PreparedStatement[] = [];
     for (const row of rows) {
       const repo = repoByKey.get(repoKey(row.github_url) ?? '');
       if (!repo || Boolean(row.repo_private) === repo.private) continue;
+      if (!syncMayWrite(row, 'repo_private')) {
+        report.warnings.push(`${row.name}: ${repo.full_name} is now ${repo.private ? 'private' : 'public'} on GitHub; kept the GitHub link setting from the admin`);
+        continue;
+      }
       updates.push(
         env.DB.prepare("UPDATE tools SET repo_private = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%SZ', 'now') WHERE id = ?").bind(
           repo.private ? 1 : 0,
@@ -150,10 +161,10 @@ export async function runSync(env: Env, trigger: 'cron' | 'manual', dryRun: bool
 
           if (!dryRun) {
             await env.DB.prepare(
-              `INSERT INTO tools (name, description, github_url, website_url, category, tags, added, repo_private, source)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'sync')`,
+              `INSERT INTO tools (name, description, github_url, origin_github_url, website_url, category, tags, added, repo_private, source)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'sync')`,
             )
-              .bind(listing.name, listing.description, repo.html_url, chosen.url, listing.category, JSON.stringify(listing.tags), today, repo.private ? 1 : 0)
+              .bind(listing.name, listing.description, repo.html_url, repo.html_url, chosen.url, listing.category, JSON.stringify(listing.tags), today, repo.private ? 1 : 0)
               .run();
           }
           listedHosts.add(chosen.site.hostname);

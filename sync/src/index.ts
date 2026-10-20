@@ -1,3 +1,4 @@
+import { handleAdmin } from './admin.ts';
 import { localParts } from './match.ts';
 import { runSync } from './sync.ts';
 import type { ApiTool, Env, ToolRow } from './types.ts';
@@ -16,8 +17,9 @@ function authorized(request: Request, env: Env): boolean {
 }
 
 /**
- * Visible tools in insertion order. Tools without a public website stay in the
- * database but are not served. Private repos are served without their GitHub URL.
+ * Public tools in insertion order. Private (hidden) tools and tools without a
+ * website stay in the database but are not served. Private repos are served
+ * without their GitHub URL.
  */
 async function listTools(env: Env): Promise<ApiTool[]> {
   const { results } = await env.DB.prepare("SELECT * FROM tools WHERE hidden = 0 AND coalesce(website_url, '') != '' ORDER BY id").all<ToolRow>();
@@ -39,6 +41,8 @@ export default {
 
     // Read once per site build, not per visitor: the Pages site is static.
     if (pathname === '/api/tools' && request.method === 'GET') return json(await listTools(env));
+
+    if (pathname === '/admin' || pathname.startsWith('/admin/')) return handleAdmin(request, env);
 
     if (pathname === '/api/sync' && request.method === 'POST') {
       if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401);

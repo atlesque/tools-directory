@@ -7,7 +7,8 @@ export type Tool = {
   /** Empty when the repository is private. */
   githubUrl: string;
   websiteUrl?: string;
-  category: 'AI' | 'Audio' | 'Documents' | 'Games' | 'Images' | 'Productivity' | 'Text' | 'Web' | 'Developer';
+  /** Usually one of the sync's CATEGORIES; the admin can also type a new one. */
+  category: string;
   tags: string[];
   /** Date the tool was added to the directory (YYYY-MM-DD). */
   added: string;
