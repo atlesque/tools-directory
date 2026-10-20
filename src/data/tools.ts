@@ -1,4 +1,4 @@
-import { getSecret } from 'astro:env/server';
+import { CF_PAGES_BRANCH, getSecret } from 'astro:env/server';
 import fixture from './tools.fixture.json';
 
 export type Tool = {
@@ -17,12 +17,13 @@ export type Tool = {
 /**
  * Tools come from the D1 database behind the sync Worker (see sync/). They are
  * read once per build, so the site stays static and the nightly sync triggers
- * a rebuild to publish changes. `astro dev` falls back to a local snapshot.
+ * a rebuild to publish changes. `astro dev` and Pages preview builds fall back
+ * to a local snapshot; production builds fail instead of shipping stale data.
  */
 async function loadTools(): Promise<Tool[]> {
   const url = getSecret('TOOLS_API_URL');
   if (!url) {
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV || (CF_PAGES_BRANCH && CF_PAGES_BRANCH !== 'main')) {
       console.warn('TOOLS_API_URL is not set; using src/data/tools.fixture.json');
       return fixture as Tool[];
     }
