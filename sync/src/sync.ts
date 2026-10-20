@@ -31,11 +31,12 @@ export function eligible(repo: Pick<Repo, 'topics'>, sites: Site[], filter: Filt
   const topics = (repo.topics ?? []).map((topic) => topic.toLowerCase());
   if (topics.includes(filter.optOut)) return { sites: [], reason: `has the ${filter.optOut} topic` };
   const usable = sites.filter((site) => !filter.ignoreHosts.includes(site.hostname));
+  if (!usable.length) return { sites: [], reason: `${sites.map((site) => site.hostname).join(', ')} is in IGNORE_HOSTS` };
   if (topics.includes(filter.optIn) || !filter.domains.length) return { sites: usable };
   const onDomain = usable.filter((site) => onToolDomain(site.hostname, filter.domains));
   if (onDomain.length) return { sites: onDomain };
   const hosts = usable.map((site) => site.hostname).join(', ');
-  return { sites: [], reason: `${hosts || 'site'} is not on ${filter.domains.join(' or ')} (add the ${filter.optIn} topic to list it)` };
+  return { sites: [], reason: `${hosts} is not on ${filter.domains.join(' or ')} (add the ${filter.optIn} topic to list it)` };
 }
 
 /** Candidate hostnames for a repo, most explicit first. */
