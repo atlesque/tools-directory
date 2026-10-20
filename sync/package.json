@@ -1,0 +1,19 @@
+{
+  "name": "tools-directory-sync",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --test-scheduled",
+    "deploy": "wrangler deploy",
+    "migrate": "wrangler d1 migrations apply tools-directory --remote",
+    "migrate:local": "wrangler d1 migrations apply tools-directory --local",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --no-warnings --test test/*.test.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260930.2",
+    "typescript": "5.9.3",
+    "wrangler": "4.145.0"
+  }
+}

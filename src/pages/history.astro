@@ -39,7 +39,7 @@ const first = toolsByDate.at(-1)?.added ?? '';
           {batch.tools.map((tool) => (
             <li class="timeline-item" style={`--c: ${categoryColor[tool.category]}`}>
               <div class="timeline-item-body">
-                <a class="timeline-name" href={tool.websiteUrl ?? tool.githubUrl}>{tool.name}</a>
+                <a class="timeline-name" href={tool.websiteUrl ?? (tool.githubUrl || undefined)}>{tool.name}</a>
                 <span class="timeline-cat"><span class="dot" />{tool.category}</span>
                 <p>{tool.description}</p>
               </div>
@@ -49,9 +49,11 @@ const first = toolsByDate.at(-1)?.added ?? '';
                     Website <Fragment set:html={icon('external')} />
                   </a>
                 )}
-                <a href={tool.githubUrl}>
-                  <Fragment set:html={icon('github')} /> GitHub
-                </a>
+                {tool.githubUrl && (
+                  <a href={tool.githubUrl}>
+                    <Fragment set:html={icon('github')} /> GitHub
+                  </a>
+                )}
               </div>
             </li>
           ))}

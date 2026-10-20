@@ -1,0 +1,46 @@
+name = "tools-directory-sync"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Cron Triggers run in UTC. 03:00 in Amsterdam is 01:00 UTC in summer (CEST) and
+# 02:00 UTC in winter (CET), so both fire and the handler only continues on the
+# one that lands on 03:00 local time.
+[triggers]
+crons = ["0 1 * * *", "0 2 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tools-directory"
+database_id = "c25e9a64-65dd-4a8d-b396-3e1f63ec5652"
+migrations_dir = "migrations"
+
+[ai]
+binding = "AI"
+
+[vars]
+# GitHub affiliations to scan. Add "collaborator" to include repos you were invited to.
+GITHUB_AFFILIATION = "owner,organization_member"
+AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+LOCAL_TIMEZONE = "Europe/Amsterdam"
+LOCAL_HOUR = "3"
+# Outbound requests per run. The account is on Workers Paid (1000 per invocation);
+# use 45 on the Free plan, which allows 50.
+MAX_SUBREQUESTS = "900"
+# Only sites on subdomains of these domains are added automatically. A repo with
+# the OPT_IN_TOPIC is added from any domain; one with OPT_OUT_TOPIC never is.
+TOOL_DOMAINS = "atlesque.dev"
+OPT_IN_TOPIC = "directory"
+OPT_OUT_TOPIC = "no-directory"
+# Hostnames that are never a tool's site (the directory itself, shared auth).
+IGNORE_HOSTS = "tools.atlesque.dev,accounts.atlesque.dev"
+
+# Secrets (wrangler secret put <NAME>):
+#   GITHUB_TOKEN          fine-grained PAT, all repositories, Metadata + Contents read
+#   CLOUDFLARE_API_TOKEN  user API token, see README
+#   PAGES_DEPLOY_HOOK     deploy hook URL of the tools-directory Pages project
+#   SYNC_TOKEN            optional, enables POST /api/sync for manual runs
+# Optional: CLOUDFLARE_ACCOUNT_ID (otherwise the token's first account is used).
+
+[observability]
+enabled = true

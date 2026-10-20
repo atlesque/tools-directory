@@ -73,9 +73,11 @@ import { categories, categoryColor, countIn, deployedCount, slug } from '../lib/
                       Website <Fragment set:html={icon('external')} />
                     </a>
                   )}
-                  <a href={tool.githubUrl}>
-                    <Fragment set:html={icon('github')} /> GitHub
-                  </a>
+                  {tool.githubUrl && (
+                    <a href={tool.githubUrl}>
+                      <Fragment set:html={icon('github')} /> GitHub
+                    </a>
+                  )}
                 </div>
               </article>
             ))}
