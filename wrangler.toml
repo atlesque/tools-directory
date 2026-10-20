@@ -3,3 +3,5 @@ pages_build_output_dir = "dist"
 
 [vars]
 NODE_VERSION = "24"
+# Read once per build by src/data/tools.ts; served by the sync Worker in sync/.
+TOOLS_API_URL = "https://tools-directory-sync.alexander-df0.workers.dev/api/tools"

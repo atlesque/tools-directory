@@ -17,10 +17,10 @@ Workers AI ────┘                         └── Pages deploy hook �
 ```bash
 npm install
 npm run dev          # uses src/data/tools.fixture.json when TOOLS_API_URL is unset
-TOOLS_API_URL=https://tools-directory-sync.<subdomain>.workers.dev/api/tools npm run build
+TOOLS_API_URL=https://tools-directory-sync.alexander-df0.workers.dev/api/tools npm run build
 ```
 
-Production builds need `TOOLS_API_URL` (set it in the Pages project's environment variables).
+Production builds need `TOOLS_API_URL`, which `wrangler.toml` sets for Pages.
 
 ## Nightly sync (`sync/`)
 
@@ -66,9 +66,9 @@ npx wrangler deploy
 
 ```bash
 # Dry run: reports what would be added without writing or rebuilding
-curl -X POST -H "Authorization: Bearer $SYNC_TOKEN" "https://tools-directory-sync.<subdomain>.workers.dev/api/sync?dry=1"
+curl -X POST -H "Authorization: Bearer $SYNC_TOKEN" "https://tools-directory-sync.alexander-df0.workers.dev/api/sync?dry=1"
 # Recent runs with skipped repos and reasons
-curl -H "Authorization: Bearer $SYNC_TOKEN" https://tools-directory-sync.<subdomain>.workers.dev/api/runs
+curl -H "Authorization: Bearer $SYNC_TOKEN" https://tools-directory-sync.alexander-df0.workers.dev/api/runs
 ```
 
 `npm test` runs the unit tests for the matching helpers.

@@ -27,7 +27,7 @@ async function loadTools(): Promise<Tool[]> {
       console.warn('TOOLS_API_URL is not set; using src/data/tools.fixture.json');
       return fixture as Tool[];
     }
-    throw new Error('TOOLS_API_URL is not set. Point it at the sync Worker, e.g. https://tools-directory-sync.<subdomain>.workers.dev/api/tools');
+    throw new Error('TOOLS_API_URL is not set. Point it at the sync Worker, e.g. https://tools-directory-sync.alexander-df0.workers.dev/api/tools');
   }
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Loading tools from ${url} failed with ${res.status}`);
