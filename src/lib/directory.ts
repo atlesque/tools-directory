@@ -15,7 +15,7 @@ export const countIn = (category: string) => tools.filter((tool) => tool.categor
 export const deployedCount = tools.filter((tool) => tool.websiteUrl).length;
 export const repoOnlyCount = tools.length - deployedCount;
 
-/** Newest first; ties keep their order in tools.ts. */
+/** Newest first; ties keep the order the API returns (database insertion order). */
 export const toolsByDate: Tool[] = tools
   .map((tool, index) => ({ tool, index }))
   .sort((a, b) => b.tool.added.localeCompare(a.tool.added) || a.index - b.index)

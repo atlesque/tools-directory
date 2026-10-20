@@ -12,7 +12,7 @@ interface Props {
   description?: string;
 }
 
-const { page, title, description = 'A directory of public tool repositories by atlesque.' } = Astro.props;
+const { page, title, description = 'A directory of tools built by atlesque.' } = Astro.props;
 
 const pages = [
   { id: 'tools', href: '/', label: 'Tools', icon: 'layers', badge: tools.length },
@@ -104,7 +104,7 @@ const pages = [
               <ol class="recent-list">
                 {recentTools.map((tool, i) => (
                   <li class={i === 0 ? 'is-latest' : undefined}>
-                    <a href={tool.websiteUrl ?? tool.githubUrl}>{tool.name}</a>
+                    <a href={tool.websiteUrl ?? (tool.githubUrl || undefined)}>{tool.name}</a>
                   </li>
                 ))}
               </ol>
