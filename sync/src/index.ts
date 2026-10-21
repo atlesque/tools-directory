@@ -37,12 +37,13 @@ async function listTools(env: Env): Promise<ApiTool[]> {
 
 export default {
   async fetch(request, env) {
-    const { pathname, searchParams } = new URL(request.url);
+    const { hostname, pathname, searchParams } = new URL(request.url);
 
     // Read once per site build, not per visitor: the Pages site is static.
     if (pathname === '/api/tools' && request.method === 'GET') return json(await listTools(env));
 
-    if (pathname === '/admin' || pathname.startsWith('/admin/')) return handleAdmin(request, env);
+    // The admin hostname is all admin; elsewhere only /admin/* is (and still needs Access).
+    if (hostname === env.ADMIN_HOST || pathname === '/admin' || pathname.startsWith('/admin/')) return handleAdmin(request, env);
 
     if (pathname === '/api/sync' && request.method === 'POST') {
       if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401);

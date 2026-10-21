@@ -13,6 +13,8 @@ export interface Env {
   ACCESS_TEAM_DOMAIN?: string;
   /** Application Audience (AUD) tag of the Access application in front of the admin. */
   ACCESS_AUD?: string;
+  /** Hostname that serves the admin page at its root. */
+  ADMIN_HOST?: string;
   /** Comma-separated emails allowed into the admin, checked on top of the Access policy. */
   ADMIN_EMAILS?: string;
   GITHUB_AFFILIATION: string;
