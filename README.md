@@ -88,7 +88,7 @@ token locally too.
 
 ## Admin (`/admin` on the sync Worker)
 
-https://tools-admin.atlesque.dev/admin lists every tool, including private ones and ones without a website. From
+https://admin.tools.atlesque.dev/admin lists every tool, including private ones and ones without a website. From
 there you can add tools, edit the name, description, category (pick one or type a new one), tags, links and date,
 and make a tool private (hidden from the public site) or public again. Changes go live on the next nightly rebuild,
 or straight away with **Publish site now**, which calls the Pages deploy hook.
@@ -98,14 +98,14 @@ writes a column listed there. A tool's original GitHub URL is kept in `origin_gi
 another repo does not make the sync add the old repo again. Tools are never deleted from the admin; making one
 private is the way to remove it.
 
-Access is enforced twice: a Cloudflare Access application in front of `tools-admin.atlesque.dev`, and a check of
+Access is enforced twice: a Cloudflare Access application in front of `admin.tools.atlesque.dev`, and a check of
 the Access token in the Worker (`src/access.ts`) for the application's AUD tag and the emails in `ADMIN_EMAILS`.
 That second check keeps `/admin` closed on the workers.dev URL, which Access does not cover. Until
 `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` are set, `/admin` answers 503.
 
 ### Admin setup
 
-1. Zero Trust › Access › Applications › Add an application › Self-hosted. Domain `tools-admin.atlesque.dev`
+1. Zero Trust › Access › Applications › Add an application › Self-hosted. Domain `admin.tools.atlesque.dev`
    (no path), one Allow policy with the rule Emails = `alexander@atlesque.media`. Copy the Application Audience
    (AUD) tag from the application's overview.
 2. Note the team domain from Zero Trust › Settings › Custom Pages (`https://<team>.cloudflareaccess.com`).
@@ -116,5 +116,5 @@ cd sync
 npm run migrate                              # applies 0003_admin_edits.sql
 npx wrangler secret put ACCESS_TEAM_DOMAIN   # https://<team>.cloudflareaccess.com
 npx wrangler secret put ACCESS_AUD
-npx wrangler deploy                          # also creates the tools-admin.atlesque.dev custom domain
+npx wrangler deploy                          # also creates the admin.tools.atlesque.dev custom domain
 ```
