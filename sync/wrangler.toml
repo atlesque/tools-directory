@@ -41,6 +41,8 @@ IGNORE_HOSTS = "tools.atlesque.dev,admin.tools.atlesque.dev,accounts.atlesque.de
 # Admin (src/admin.ts): every /admin request needs a Cloudflare Access token for
 # one of these emails, on top of the Access policy itself.
 ADMIN_EMAILS = "alexander@atlesque.media"
+# Serves the admin page at its root (the custom domain in routes above).
+ADMIN_HOST = "admin.tools.atlesque.dev"
 
 # Secrets (wrangler secret put <NAME>):
 #   GITHUB_TOKEN          fine-grained PAT, all repositories, Metadata + Contents read

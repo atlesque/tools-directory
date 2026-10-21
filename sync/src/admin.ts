@@ -81,7 +81,7 @@ async function publish(env: Env) {
 }
 
 /**
- * The admin UI and its API under /admin. Every request needs a valid Cloudflare
+ * The admin UI (at the root of ADMIN_HOST) and its API under /admin/api. Every request needs a valid Cloudflare
  * Access token for one of ADMIN_EMAILS, so the page is closed on workers.dev too.
  */
 export async function handleAdmin(request: Request, env: Env): Promise<Response> {
@@ -96,7 +96,9 @@ export async function handleAdmin(request: Request, env: Env): Promise<Response>
   const path = url.pathname.replace(/\/+$/, '');
   const { method } = request;
 
-  if (path === '/admin' && method === 'GET') {
+  // The page lives at the root of ADMIN_HOST; the old /admin URL redirects there.
+  if (path === '/admin' && method === 'GET' && url.hostname === env.ADMIN_HOST) return Response.redirect(`${url.origin}/`, 301);
+  if ((path === '' || path === '/admin') && method === 'GET') {
     return new Response(page, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',

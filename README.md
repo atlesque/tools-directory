@@ -86,9 +86,9 @@ curl -H "Authorization: Bearer $SYNC_TOKEN" https://tools-directory-sync.alexand
 For `wrangler dev`, put `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` in `sync/.dev.vars`; the admin needs a valid Access
 token locally too.
 
-## Admin (`/admin` on the sync Worker)
+## Admin (on the sync Worker)
 
-https://admin.tools.atlesque.dev/admin lists every tool, including private ones and ones without a website. From
+https://admin.tools.atlesque.dev/ lists every tool, including private ones and ones without a website. From
 there you can add tools, edit the name, description, category (pick one or type a new one), tags, links and date,
 and make a tool private (hidden from the public site) or public again. Changes go live on the next nightly rebuild,
 or straight away with **Publish site now**, which calls the Pages deploy hook.
@@ -100,8 +100,9 @@ private is the way to remove it.
 
 Access is enforced twice: a Cloudflare Access application in front of `admin.tools.atlesque.dev`, and a check of
 the Access token in the Worker (`src/access.ts`) for the application's AUD tag and the emails in `ADMIN_EMAILS`.
-That second check keeps `/admin` closed on the workers.dev URL, which Access does not cover. Until
-`ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` are set, `/admin` answers 503.
+That second check keeps `/admin/*` closed on the workers.dev URL, which Access does not cover. Until
+`ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` are set, the admin answers 503. The page is served at the root of `ADMIN_HOST`
+(its API stays under `/admin/api`), and the old `/admin` URL redirects there.
 
 ### Admin setup
 
