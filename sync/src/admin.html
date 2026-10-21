@@ -10,6 +10,9 @@
   :root {
     color-scheme: light;
     --bg: #e9eaf0;
+    --bg-glow-1: rgba(139, 92, 246, 0.18);
+    --bg-glow-2: rgba(34, 184, 207, 0.16);
+    --bg-line: rgba(60, 70, 110, 0.18);
     --panel: rgba(255, 255, 255, 0.82);
     --panel-soft: rgba(255, 255, 255, 0.5);
     --line: rgba(30, 34, 50, 0.12);
@@ -30,6 +33,9 @@
     :root {
       color-scheme: dark;
       --bg: #0b0c10;
+      --bg-glow-1: rgba(139, 92, 246, 0.22);
+      --bg-glow-2: rgba(34, 140, 207, 0.18);
+      --bg-line: rgba(140, 220, 255, 0.22);
       --panel: rgba(36, 37, 44, 0.85);
       --panel-soft: rgba(255, 255, 255, 0.05);
       --line: rgba(255, 255, 255, 0.1);
@@ -48,6 +54,20 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-size: 15px; line-height: 1.45; }
+  /* Same backdrop as tools.atlesque.dev (src/styles/global.css). */
+  .backdrop {
+    position: fixed; inset: 0; z-index: -1; overflow: hidden;
+    background:
+      radial-gradient(60rem 40rem at 85% -10%, var(--bg-glow-2), transparent 60%),
+      radial-gradient(50rem 36rem at 10% 110%, var(--bg-glow-1), transparent 60%),
+      var(--bg);
+  }
+  .backdrop-lines {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    fill: none; stroke: var(--bg-line); stroke-width: 1.4; filter: drop-shadow(0 0 6px var(--bg-line));
+  }
+  .backdrop-lines .warm { stroke: rgba(255, 116, 72, 0.35); }
+  ul.tools, .seg, input, textarea, .button, button:not(.primary) { -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
   main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
   header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: space-between; margin-bottom: 20px; }
   h1 { font-size: 26px; font-weight: 650; margin: 0; letter-spacing: -0.01em; }
@@ -113,6 +133,13 @@
 </style>
 </head>
 <body>
+<div class="backdrop" aria-hidden="true">
+  <svg class="backdrop-lines" viewBox="0 0 1600 900" preserveAspectRatio="none">
+    <polyline points="0,640 80,600 130,660 210,520 260,560 330,430 380,470 470,380 520,420 600,300 660,350 720,260" />
+    <polyline points="900,820 980,760 1030,790 1110,690 1160,720 1240,600 1300,640 1380,520 1430,560 1520,440 1600,470" />
+    <polyline class="warm" points="1180,900 1240,830 1290,860 1350,760 1400,800 1470,700 1530,740 1600,680" />
+  </svg>
+</div>
 <main>
   <header>
     <h1>Tools admin <small id="who">Loading…</small></h1>
