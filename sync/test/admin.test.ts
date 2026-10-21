@@ -80,7 +80,7 @@ const config = { teamDomain: 'atlesque', aud: 'aud-1', emails: ['alexander@atles
 const now = Date.UTC(2026, 9, 20, 12);
 const good = { aud: ['aud-1'], iss: 'https://atlesque.cloudflareaccess.com', email: 'Alexander@atlesque.media', exp: now / 1000 + 600 };
 const request = (jwt?: string, cookie = false) =>
-  new Request('https://tools-admin.atlesque.dev/admin', {
+  new Request('https://admin.tools.atlesque.dev/admin', {
     headers: jwt ? (cookie ? { Cookie: `x=1; CF_Authorization=${jwt}` } : { 'Cf-Access-Jwt-Assertion': jwt }) : {},
   });
 
