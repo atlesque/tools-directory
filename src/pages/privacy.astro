@@ -1,0 +1,113 @@
+---
+import Shell from '../layouts/Shell.astro';
+import { icon } from '../lib/icons';
+
+const updated = '2026-10-22';
+const contact = 'privacy@atlesque.dev';
+---
+
+<Shell page="privacy" title="Privacy policy" description="How the atlesque tools handle your data, and how visit analytics work.">
+  <header class="panel-header">
+    <div class="title-block">
+      <h1>Privacy policy</h1>
+      <span class="badge">
+        <Fragment set:html={icon('history')} />
+        Last updated <time datetime={updated}>22 October 2026</time>
+      </span>
+    </div>
+  </header>
+
+  <article class="prose">
+    <p class="lead">
+      This policy covers the tools listed on <a href="/">tools.atlesque.dev</a> and the websites they run on (subdomains of
+      atlesque.dev and atlesque.com, semina.be and amongusdetective.com). It explains what data is processed when you use
+      them and what you can do about it.
+    </p>
+
+    <h2>Who is responsible</h2>
+    <p>
+      <strong>Atlesque Media VOF</strong> is the controller for the personal data described here. For any privacy question or
+      request, email <a href={`mailto:${contact}`}>{contact}</a>.
+    </p>
+
+    <h2>Visit analytics (only with your consent)</h2>
+    <p>
+      When you first open a tool, it asks whether it may count your visit. Only if you choose <em>Allow</em> does the tool
+      load <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a>. If you choose <em>No thanks</em>,
+      or your browser sends a Global Privacy Control signal, nothing is loaded.
+    </p>
+    <p>With your consent, Cloudflare records for each page view:</p>
+    <ul>
+      <li>the page address and the page you came from (referrer);</li>
+      <li>your browser, operating system and device type, taken from the user-agent;</li>
+      <li>your country, derived from your IP address;</li>
+      <li>how quickly the page loaded (performance timings and Core Web Vitals).</li>
+    </ul>
+    <p>
+      Cloudflare Web Analytics sets no cookies, stores nothing in your browser and, according to Cloudflare, does not
+      fingerprint visitors or track them across websites. We only see aggregated statistics, such as visits per page and per
+      country; we cannot see who you are. We use them to learn which tools are used and to fix slow pages.
+    </p>
+    <p>
+      Legal basis: your consent (Article 6(1)(a) GDPR, and the consent rule for reading information from your device in the
+      ePrivacy Directive as implemented in Belgian law). You can withdraw it at any time with the small shield button in the
+      corner of each tool, or a <em>Privacy settings</em> link where a tool has one. Withdrawing does not affect visits counted
+      before. Your choice applies to that one tool and is asked again after 12 months.
+    </p>
+
+    <h2>Hosting and security</h2>
+    <p>
+      All tools are delivered and protected by Cloudflare. To send you a page, Cloudflare necessarily processes technical data
+      such as your IP address, the requested address and your browser's request headers, and may use them to block attacks
+      and abuse. Legal basis: our legitimate interest in running secure, working websites (Article 6(1)(f) GDPR). We do not use
+      this data to identify or profile visitors.
+    </p>
+
+    <h2>Data stored in your browser</h2>
+    <p>
+      Many tools save your settings and work, such as theme, volume, progress or the text you entered, in your browser's local
+      storage so it is still there next time. That data stays on your device and is not sent to us, unless a tool explicitly
+      saves it online (see below). Your analytics choice is stored the same way, under the key <code>atlesque-consent</code>.
+      These items are needed for the function you ask for, so they do not require consent. You can delete them at any time by
+      clearing the site data in your browser.
+    </p>
+
+    <h2>Tools with accounts or online features</h2>
+    <p>
+      Some tools offer features that need a server: signing in with an emailed code, saving progress or groups online, or
+      real-time sessions with others. For those, we process what is needed to provide the feature, such as your email address,
+      the content you enter and the data needed to keep you signed in. Legal basis: providing the service you asked for
+      (Article 6(1)(b) GDPR). We keep this data while you use the feature and delete it when you ask us to, unless a tool
+      states a shorter period. Where a tool shows its own privacy notice, that notice adds to this policy.
+    </p>
+
+    <h2>Who processes the data</h2>
+    <p>
+      We use <strong>Cloudflare, Inc.</strong> as our processor for hosting, content delivery, security, analytics and storage,
+      under its Data Processing Addendum. Cloudflare may process data outside the European Economic Area, including in the
+      United States; such transfers are covered by Cloudflare's certification under the EU-U.S. Data Privacy Framework and
+      by the European Commission's Standard Contractual Clauses.
+    </p>
+    <p>
+      We do not sell your data, show ads, build profiles or make automated decisions about you.
+    </p>
+
+    <h2>Your rights</h2>
+    <p>
+      You have the right to access your data, to have it corrected or deleted, to restrict or object to its processing, to
+      receive it in a portable format, and to withdraw consent at any time. Email <a href={`mailto:${contact}`}>{contact}</a>;
+      we reply within one month. Because analytics are aggregated and contain no identifiers, we usually cannot link them to
+      you.
+    </p>
+    <p>
+      You can also lodge a complaint with a data protection authority. In Belgium that is the
+      <a href="https://www.dataprotectionauthority.be/">Gegevensbeschermingsautoriteit / Autorité de protection des données</a>;
+      you can also contact the authority in the EU country where you live.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      We update this policy when the tools change how they handle data. The date at the top shows the latest version.
+    </p>
+  </article>
+</Shell>

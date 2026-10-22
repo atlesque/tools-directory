@@ -4,7 +4,7 @@ import { icon } from '../lib/icons';
 import { recentTools } from '../lib/directory';
 import '../styles/global.css';
 
-type Page = 'tools' | 'overview' | 'history';
+type Page = 'tools' | 'overview' | 'history' | 'privacy';
 
 interface Props {
   page: Page;
@@ -28,6 +28,7 @@ const pages = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline src="/consent.js" defer></script>
     <title>{page === 'tools' ? 'Tools Directory' : `${title} · Tools Directory`}</title>
     <script is:inline>
       (() => {
@@ -113,6 +114,10 @@ const pages = [
               </a>
             </>
           )}
+          <p class="rail-legal">
+            <a href="/privacy" aria-current={page === 'privacy' ? 'page' : undefined}>Privacy policy</a>
+            <button type="button" data-privacy-settings>Privacy settings</button>
+          </p>
         </aside>
 
         <slot name="dock" />

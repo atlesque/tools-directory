@@ -1019,6 +1019,76 @@ svg {
   color: var(--ink);
 }
 
+.rail-legal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.rail-legal a,
+.rail-legal button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--faint);
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.rail-legal a:hover,
+.rail-legal button:hover,
+.rail-legal a[aria-current='page'] {
+  color: var(--ink);
+}
+
+/* ── Privacy policy ─────────────────────────── */
+
+.prose {
+  max-width: 68ch;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.prose .lead {
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.prose h2 {
+  margin: 2rem 0 0.5rem;
+  color: var(--ink);
+  font-size: 1.1rem;
+}
+
+.prose p,
+.prose ul {
+  margin: 0 0 0.9rem;
+}
+
+.prose ul {
+  padding-left: 1.25rem;
+}
+
+.prose a {
+  color: var(--accent-ink);
+  text-underline-offset: 2px;
+}
+
+.prose strong {
+  color: var(--ink);
+}
+
+.prose code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--track);
+  font-size: 0.9em;
+}
+
 /* ── History timeline ───────────────────────── */
 
 .timeline {
