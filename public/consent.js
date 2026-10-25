@@ -11,6 +11,8 @@
  * Optional attributes on the script tag:
  *   data-token="…"            Web Analytics token, overrides the per-domain default below
  *   data-launcher="left|right|none"  where the privacy button sits after a choice (default: left)
+ *   data-policy="…"           the site's own privacy policy (absolute or relative URL), instead of the
+ *                             generic tools.atlesque.dev/privacy
  *
  * CSP for sites that set one:
  *   script-src  https://tools.atlesque.dev https://static.cloudflareinsights.com
@@ -38,6 +40,14 @@
   const zone = Object.keys(TOKENS).find((d) => host === d || host.endsWith('.' + d));
   const token = script?.dataset.token || (zone && TOKENS[zone]);
   const launcherSide = script?.dataset.launcher || 'left';
+  const policyUrl = (() => {
+    try {
+      const u = new URL(script?.dataset.policy || POLICY_URL, location.href);
+      if (u.protocol === 'https:' || u.protocol === 'http:') return u.href;
+    } catch {}
+    return POLICY_URL;
+  })();
+  const policyIsLocal = new URL(policyUrl).origin === location.origin;
   if (!token) return;
 
   const read = () => {
@@ -147,7 +157,7 @@
         <h2 id="ac-title">Can we count your visit?</h2>
         <p id="ac-text">With your permission we use Cloudflare Web Analytics to see how this tool is used.
           It sets no cookies and is not used for ads or to follow you across sites.
-          You can change your mind at any time. <a href="${POLICY_URL}" target="_blank" rel="noopener">Privacy policy</a></p>
+          You can change your mind at any time. <a class="policy">Privacy policy</a></p>
         <div class="actions">
           <button type="button" data-choice="deny">No thanks</button>
           <button type="button" class="primary" data-choice="allow">Allow</button>
@@ -157,6 +167,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
       </button>`;
     shadow.appendChild(wrap);
+
+    const policy = wrap.querySelector('a.policy');
+    policy.href = policyUrl;
+    // A site's own policy opens in place; the shared one opens in a new tab.
+    if (!policyIsLocal) {
+      policy.target = '_blank';
+      policy.rel = 'noopener';
+    }
 
     const banner = wrap.querySelector('.banner');
     const launcher = wrap.querySelector('.launcher');
