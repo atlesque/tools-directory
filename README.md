@@ -22,6 +22,39 @@ TOOLS_API_URL=https://tools-directory-sync.alexander-df0.workers.dev/api/tools n
 
 Production builds need `TOOLS_API_URL`, which `wrangler.toml` sets for Pages.
 
+## Shared consent script (`public/consent.js`)
+
+Every public tool loads `https://tools.atlesque.dev/consent.js`, so a change here reaches all of them on the
+next deploy (browsers cache the file for up to four hours). It asks before loading Cloudflare Web Analytics and remembers
+the answer in the site's own local storage.
+
+```html
+<script src="https://tools.atlesque.dev/consent.js" defer></script>
+```
+
+By default a visitor gets a small banner, and afterwards a shield button in the corner (or the site's own
+`data-privacy-settings` link) to change the answer.
+
+A site opts in to the **preferences window** by putting a link in its footer:
+
+```html
+<button type="button" data-cookie-preferences></button>
+```
+
+Left empty, the link is filled with an icon and "Cookie preferences"; give it content of its own to use that
+instead. It opens a modal listing what the site uses per category, with a switch per category and Allow all,
+Reject all and Confirm my choices. The first-visit banner then also gets a Customise button and the corner
+button is not shown. Add `data-mode="preferences"` to the script tag when the footer is rendered on the client,
+or when existing `data-privacy-settings` links should open the window too.
+
+Sites can list more of what they use, and add categories of their own that they load themselves once allowed
+(`AtlesqueConsent.get('<id>')` and the `atlesque-consent` event). The comment at the top of
+`public/consent.js` has the format, the other script attributes and the CSP entries.
+
+On localhost and other hosts without an analytics token nothing is asked; the link still opens the window,
+which then lists only what is strictly necessary. Give the script tag any `data-token` to see the full window
+locally.
+
 ## Nightly sync (`sync/`)
 
 Each night at 03:00 Europe/Amsterdam the Worker:
